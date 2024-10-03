@@ -26,41 +26,7 @@ public class BFS {
         queue.add(src);
         visite[src.getX()][src.getY()] = true;
 
-        // Pour garder la trace des parents pour reconstruire le chemin
-        Map<Point, Point> parentMap = new HashMap<>();
-        parentMap.put(src, null);
-
-        // Boucle principale de BFS
-        while (!queue.isEmpty()) {
-            Point actuel = queue.poll();
-            int x = actuel.getX();
-            int y = actuel.getY();
-            ArrayList<Integer> directionAleatoire = new ArrayList<>();
-            directionAleatoire.add(0);
-            directionAleatoire.add(1);
-            directionAleatoire.add(2);
-            directionAleatoire.add(3);
-
-            // Exploration des voisins
-            for (int i = 0; i < 4; i++) {
-                Random random = new Random();
-                int nr = random.nextInt(directionAleatoire.size());
-                int d = directionAleatoire.get(nr);
-                directionAleatoire.remove(nr);
-                int nx = x + dLigne[d];
-                int ny = y + dColonne[d];
-
-                // Vérifier si le voisin est dans les limites du tableau et non visité
-                if (nx >= 0 && nx < ligne && ny >= 0 && ny < colonne && !visite[nx][ny] && vide(grille[nx][ny])) {
-                    Point voisin = new Point(nx, ny);
-                    queue.add(voisin);
-                    visite[nx][ny] = true;
-                    parentMap.put(voisin, actuel);
-                }
-            }
-        }
-
-        this.parentMap = parentMap;
+        this.parentMap = boucleBFS(src, queue, ligne, colonne, visite, grille);
     }
 
     private boolean vide(int valeur){
@@ -139,4 +105,46 @@ public class BFS {
     public Map<Point, Point> getParentMap() {
         return parentMap;
     }
+
+    public Map<Point, Point> boucleBFS(Point src, LinkedList<Point> queue, int ligne, int colonne, boolean[][] visite, int[][] grille) {
+        // Pour garder la trace des parents pour reconstruire le chemin
+        Map<Point, Point> parentMap = new HashMap<>();
+        parentMap.put(src, null);
+
+        // Boucle principale de BFS
+        while (!queue.isEmpty()) {
+            Point actuel = queue.poll();
+
+            // Exploration des voisins
+            explorerVoisins(parentMap, ligne, colonne, queue, visite, grille, actuel);
+
+        }
+        return parentMap;
+    }
+
+    public void explorerVoisins(Map<Point, Point> parentMap, int ligne, int colonne, LinkedList<Point> queue, boolean[][] visite, int[][] grille, Point actuel) {
+        ArrayList<Integer> directionAleatoire = new ArrayList<>();
+        directionAleatoire.add(0);
+        directionAleatoire.add(1);
+        directionAleatoire.add(2);
+        directionAleatoire.add(3);
+
+        for (int i = 0; i < 4; i++) {
+            Random random = new Random();
+            int nr = random.nextInt(directionAleatoire.size());
+            int d = directionAleatoire.get(nr);
+            directionAleatoire.remove(nr);
+            int nx = actuel.getX() + dLigne[d];
+            int ny = actuel.getY() + dColonne[d];
+
+            // Vérifier si le voisin est dans les limites du tableau et non visité
+            if (nx >= 0 && nx < ligne && ny >= 0 && ny < colonne && !visite[nx][ny] && vide(grille[nx][ny])) {
+                Point voisin = new Point(nx, ny);
+                queue.add(voisin);
+                visite[nx][ny] = true;
+                parentMap.put(voisin, actuel);
+            }
+        }
+    }
+
 }
