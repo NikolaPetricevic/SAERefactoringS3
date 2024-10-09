@@ -10,7 +10,7 @@ public abstract class Projectile {
     private int degats;
     private int vitesse;
     private HitBox hitBox;
-    private String direction;
+    private Direction direction;
     private boolean obstacleTouche;
     private boolean retireEnnemiTouche;
     private String type;
@@ -20,7 +20,7 @@ public abstract class Projectile {
         this.degats = degats;
         this.vitesse = vitesse;
         this.hitBox = new HitBox(large, haut, new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
-        this.direction = keyEvent.getCode().toString();
+        this.direction = Direction.stringToDirections(keyEvent.getCode().toString()).get(0);
         this.obstacleTouche = false;
         this.type = type;
         this.retireEnnemiTouche = retireEnnemiTouche;
@@ -46,10 +46,10 @@ public abstract class Projectile {
     public String getNom() {
         return this.nom;
     }
-    public String getDirection() {
+    public Direction getDirection() {
         return this.direction;
     }
-    public void setDirection(String direction) {
+    public void setDirection(Direction direction) {
         this.direction = direction;
     }
     public boolean isObstacleTouche() {
@@ -90,16 +90,16 @@ public abstract class Projectile {
 
     public void seDeplace(Monde map) {
         switch (this.direction) {
-            case "UP":
+            case UP:
                 getHitBox().setY(getHitBox().getY() - this.vitesse);
                 break;
-            case "DOWN":
+            case DOWN:
                 getHitBox().setY(getHitBox().getY() + this.vitesse);
                 break;
-            case "LEFT":
+            case LEFT:
                 getHitBox().setX(getHitBox().getX() - this.vitesse);
                 break;
-            case "RIGHT":
+            case RIGHT:
                 getHitBox().setX(getHitBox().getX() + this.vitesse);
                 break;
         }
@@ -113,20 +113,7 @@ public abstract class Projectile {
     }
 
     public void inverserDirection() {
-        switch (direction) {
-            case "LEFT":
-                this.direction = "RIGHT";
-                break;
-            case "RIGHT":
-                this.direction = "LEFT";
-                break;
-            case "UP":
-                this.direction = "DOWN";
-                break;
-            case "DOWN":
-                this.direction = "UP";
-                break;
-        }
+        direction = direction.directionOpposee();
     }
 
     public boolean aRetirer(Terrain terrain) {

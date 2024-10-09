@@ -24,4 +24,9 @@ public enum Direction {
         return directions;
     }
 
+    public Direction directionOpposee() {
+        if (this.ordinal() % 2 == 0) return values()[this.ordinal() + 1];
+        else return values()[this.ordinal() - 1];
+    }
+
 }
