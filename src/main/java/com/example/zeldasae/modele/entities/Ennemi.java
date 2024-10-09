@@ -1,8 +1,11 @@
 package com.example.zeldasae.modele.entities;
 
 import com.example.zeldasae.Algo.BFS;
+import com.example.zeldasae.modele.Direction;
 import com.example.zeldasae.modele.Monde;
 import com.example.zeldasae.modele.Terrain;
+
+import java.util.ArrayList;
 
 public abstract class Ennemi extends Entite {
 
@@ -59,37 +62,23 @@ public abstract class Ennemi extends Entite {
                 width2 -= 30;
         }while (width <= this.getWidth() && width2 >= 0);
 
-        this.setDirection(this.getDeplacement());
-        if (isJoueurDirection(m))
+        this.setDirection(Direction.directionsToString(this.getDeplacement()));
+        if (getDirection() == null)
             attaqueEntite(m.getJoueur());
         return deplacement;
     }
 
     private void metDirection(int x, int y, int[] pdeplacement, Terrain terrain) {
-        String direction = "";
+        ArrayList<Direction> direction = new ArrayList<>();
         if (pdeplacement[0] > x && !terrain.isBrouillard(terrain.changeCoo(getX()+getWidth(), getY())))
-            direction += "right";
+            direction.add(Direction.RIGHT);
         if (pdeplacement[0] < x && !terrain.isBrouillard(terrain.changeCoo(getX(), getY())))
-            direction += "left";
+            direction.add(Direction.LEFT);
         if (pdeplacement[1] > y && !terrain.isBrouillard(terrain.changeCoo(getX(), getY()+getHeight())))
-            direction += "down";
+            direction.add(Direction.DOWN);
         if (pdeplacement[1] < y && !terrain.isBrouillard(terrain.changeCoo(getX(), getY())))
-            direction += "up";
+            direction.add(Direction.UP);
         this.setDeplacement(direction);
-    }
-
-    private boolean isJoueurDirection(Monde m){
-
-        if(isJoueurUp(m, 1))
-            return true;
-        if(isJoueurDown(m, 1))
-            return true;
-        if(isJoueurRight(m, 1))
-            return true;
-        if(isJoueurLeft(m, 1))
-            return true;
-
-        return false;
     }
 
     public boolean checkColisionEntite(Monde m, int x, int y) {
@@ -99,32 +88,19 @@ public abstract class Ennemi extends Entite {
         return super.checkColisionEntite(m, x, y);
     }
 
-    private boolean isJoueurUp(Monde m, int decalages){
+    private Direction getDirection(Monde m, int decalages){
         for (int i = 0; i <= super.getWidth(); i++){
             if (m.getJoueur().getHitBox().contient(getX() + i, getY() - decalages))
-                return true;
-        }
-        return false;
-    }
-    private boolean isJoueurDown(Monde m, int decalages){
-        for (int i = 0; i <= super.getWidth(); i++){
+                return Direction.UP;
             if (m.getJoueur().getHitBox().contient(getX() + i, getY() + super.getHeight() + decalages))
-                return true;
+                return Direction.DOWN;
         }
-        return false;
-    }
-    private boolean isJoueurRight(Monde m, int decalages){
-        for (int i = 0; i <= super.getHeight(); i++){
+        for (int i = 0; i <= super.getHeight(); i++) {
             if (m.getJoueur().getHitBox().contient(getX() + super.getWidth() + decalages, getY() + i))
-                return true;
-        }
-        return false;
-    }
-    private boolean isJoueurLeft(Monde m, int decalages){
-        for (int i = 0; i <= super.getHeight(); i++){
+                return Direction.RIGHT;
             if (m.getJoueur().getHitBox().contient(getX() - decalages, getY() + i))
-                return true;
+                return Direction.LEFT;
         }
-        return false;
+        return null;
     }
 }

@@ -5,6 +5,7 @@ import com.example.zeldasae.Vue.VueArmes.VueArme;
 import com.example.zeldasae.Vue.VueCoffre;
 import com.example.zeldasae.Vue.VueInventaire;
 import com.example.zeldasae.Vue.VueTerrain;
+import com.example.zeldasae.modele.Direction;
 import com.example.zeldasae.modele.Monde;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
@@ -42,13 +43,14 @@ public class KeyHandler implements EventHandler<KeyEvent> {
         else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {
             this.pressedKeys.remove(keyEvent.getCode());
             if (keyEvent.getCode() == Z)
-                map.getJoueur().setDirection(map.getJoueur().getDeplacement().replace("up", ""));
+                map.getJoueur().getDeplacement().remove(Direction.UP);
             if (keyEvent.getCode() == S)
-                map.getJoueur().setDirection(map.getJoueur().getDeplacement().replace("down", ""));
+                map.getJoueur().getDeplacement().remove(Direction.DOWN);
             if (keyEvent.getCode() == Q)
-                map.getJoueur().setDirection(map.getJoueur().getDeplacement().replace("left", ""));
+                map.getJoueur().getDeplacement().remove(Direction.LEFT);
             if (keyEvent.getCode() == D)
-                map.getJoueur().setDirection(map.getJoueur().getDeplacement().replace("right", ""));
+                map.getJoueur().getDeplacement().remove(Direction.RIGHT);
+            map.getJoueur().setDirection(Direction.directionsToString(map.getJoueur().getDeplacement()));
         }
 
         String direction = "";
@@ -69,7 +71,7 @@ public class KeyHandler implements EventHandler<KeyEvent> {
             direction += "right";
             map.getJoueur().addDirection("right");
         }
-        this.map.getJoueur().setDeplacement(direction);
+        this.map.getJoueur().setDeplacement(Direction.stringToDirections(direction));
 
         if (pressedKeys.contains(SHIFT))
             vueTerrain.deplaceBloc();

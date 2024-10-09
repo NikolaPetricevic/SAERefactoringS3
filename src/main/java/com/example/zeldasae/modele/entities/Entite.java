@@ -1,9 +1,12 @@
 package com.example.zeldasae.modele.entities;
 
+import com.example.zeldasae.modele.Direction;
 import com.example.zeldasae.modele.HitBox;
 import com.example.zeldasae.modele.Monde;
 import com.example.zeldasae.modele.Terrain;
 import javafx.beans.property.*;
+
+import java.util.ArrayList;
 
 public abstract class Entite {
 
@@ -14,7 +17,7 @@ public abstract class Entite {
     private int height;
     private int column;
     private int rows;
-    private String deplacement;
+    private ArrayList<Direction> deplacement;
     private int vitesse;
     private HitBox hitBox;
     private static int n = 0;
@@ -32,7 +35,7 @@ public abstract class Entite {
         this.height = height;
         this.column = column;
         this.rows = rows;
-        this.deplacement = "null";
+        this.deplacement = new ArrayList<>();
         this.vitesse = 10;
         this.hitBox = new HitBox(this.width, this.height, this.xProperty, this.yProperty);
         this.pvMax = pvMax;
@@ -124,10 +127,10 @@ public abstract class Entite {
     public HitBox getHitBox() {
         return hitBox;
     }
-    public String getDeplacement() {
+    public ArrayList<Direction> getDeplacement() {
         return deplacement;
     }
-    public void setDeplacement(String deplacement) {
+    public void setDeplacement(ArrayList<Direction> deplacement) {
         this.deplacement = deplacement;
     }
 
@@ -169,25 +172,25 @@ public abstract class Entite {
             int x = getX();
             int y = getY();
 
-            if (this.deplacement.contains("up") && checkHitBox("up", m.getTerrain()))
+            if (this.deplacement.contains(Direction.UP) && checkHitBox("up", m.getTerrain()))
                 if (checkUp(m, vitesse)) {
                     dy -= vitesse;
                     addDirection("up");
                     setY(getY() + dy);
                 }
-            if (this.deplacement.contains("down") && checkHitBox("down", m.getTerrain()))
+            if (this.deplacement.contains(Direction.DOWN) && checkHitBox("down", m.getTerrain()))
                 if (checkDown(m, vitesse)) {
                     dy += vitesse;
                     addDirection("down");
                     setY(getY() + dy);
                 }
-            if (this.deplacement.contains("left") && checkHitBox("left", m.getTerrain()))
+            if (this.deplacement.contains(Direction.LEFT) && checkHitBox("left", m.getTerrain()))
                 if (checkLeft(m, vitesse)) {
                     dx -= vitesse;
                     addDirection("left");
                     setX(getX() + dx);
                 }
-            if (this.deplacement.contains("right") && checkHitBox("right", m.getTerrain()))
+            if (this.deplacement.contains(Direction.RIGHT) && checkHitBox("right", m.getTerrain()))
                 if (checkRight(m, vitesse)) {
                     dx += vitesse;
                     addDirection("right");
@@ -218,32 +221,31 @@ public abstract class Entite {
     }
 
     public boolean checkUp(Monde m, int decalages){
-        for (int i = 0; i <= width; i++){
-            if (checkColisionEntite(m, getX() + i, getY() - decalages))
-                return false;
-        }
-        return true;
+        return !detecterColision(m, decalages).contains(Direction.UP);
     }
     public boolean checkDown(Monde m, int decalages){
-        for (int i = 0; i <= width; i++){
-            if (checkColisionEntite(m, getX() + i, getY() + height + decalages))
-                return false;
-        }
-        return true;
+        return !detecterColision(m, decalages).contains(Direction.DOWN);
     }
     public boolean checkRight(Monde m, int decalages){
-        for (int i = 0; i <= height; i++){
-            if (checkColisionEntite(m, getX() + width + decalages, getY() + i))
-                return false;
-        }
-        return true;
+        return !detecterColision(m, decalages).contains(Direction.RIGHT);
     }
     public boolean checkLeft(Monde m, int decalages){
-        for (int i = 0; i <= height; i++){
-            if (checkColisionEntite(m, getX() - decalages, getY() + i))
-                return false;
-        }
-        return true;
+        return !detecterColision(m, decalages).contains(Direction.DOWN);
     }
-
+    public ArrayList<Direction> detecterColision(Monde m, int decalages){
+        ArrayList<Direction> colisions = new ArrayList<>();
+        for (int i = 0; i <= width; i++){
+            if (checkColisionEntite(m, getX() + i, getY() - decalages))
+                colisions.add(Direction.UP);
+            if (checkColisionEntite(m, getX() + i, getY() + height + decalages))
+                colisions.add(Direction.DOWN);
+        }
+        for (int i = 0; i <= height; i++){
+            if (checkColisionEntite(m, getX() + width + decalages, getY() + i))
+                colisions.add(Direction.RIGHT);
+            if (checkColisionEntite(m, getX() - decalages, getY() + i))
+                colisions.add(Direction.LEFT);
+        }
+        return colisions;
+    }
 }
