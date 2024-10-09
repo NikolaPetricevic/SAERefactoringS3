@@ -107,43 +107,28 @@ public class HitBox {
     }
 
     public boolean estDedansHitbox(HitBox h) {
-        return((this.checkUp(h) || this.checkDown(h) || this.checkLeft(h) || this.checkRight(h)));
+        return !checkDirection(h).isEmpty();
     }
 
-    public boolean checkUp(HitBox h) {
+    public ArrayList<Direction> checkDirection(HitBox h) {
+        ArrayList<Direction> directions = new ArrayList<>();
         for (int i = 0; i < this.large; i++) {
             if (h.estDedansEgal(this.getX()+i, this.getY())) {
-                return true;
+                directions.add(Direction.UP);
             }
-        }
-        return false;
-    }
-
-    public boolean checkDown(HitBox h) {
-        for (int i = 0; i < this.large; i++) {
             if (h.estDedansEgal(this.getX()+i, this.getY()+this.haut)) {
-                return true;
+                directions.add(Direction.DOWN);
             }
         }
-        return false;
-    }
-
-    public boolean checkLeft(HitBox h) {
         for (int i = 0; i < this.haut; i++) {
             if (h.estDedansEgal(this.getX(), this.getY()+i)) {
-                return true;
+                directions.add(Direction.LEFT);
             }
-        }
-        return false;
-    }
-
-    public boolean checkRight(HitBox h) {
-        for (int i = 0; i < this.haut; i++) {
             if (h.estDedansEgal(this.getX()+this.large, this.getY()+i)) {
-                return true;
+                directions.add(Direction.RIGHT);
             }
         }
-        return false;
+        return directions;
     }
 
     public boolean degatBlocs(Terrain terrain, ArrayList<Direction> directions){
