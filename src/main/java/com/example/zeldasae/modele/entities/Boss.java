@@ -1,6 +1,7 @@
 package com.example.zeldasae.modele.entities;
 
 import com.example.zeldasae.Algo.BFS;
+import com.example.zeldasae.modele.Direction;
 import com.example.zeldasae.modele.Monde;
 import com.example.zeldasae.modele.ProjectileEnnemi;
 import javafx.animation.PauseTransition;
@@ -33,7 +34,7 @@ public class Boss extends Ennemi {
     public void attaquerDistance(Monde m) {
         ProjectileEnnemi p = new ProjectileEnnemi(2, 20, 30, 30, "ProjectileMagique");
         if(!switchDirection(m).equals("NULL")) {
-            p.setDirection(switchDirection(m));
+            p.setDirection(Direction.stringToDirections(switchDirection(m)).get(0));
             p.setPosMap(this.getX(), this.getY(), switchDirection(m));
             m.addProjectile(p);
             this.peutAttaquerDistance = false;

@@ -1,6 +1,7 @@
 package com.example.zeldasae.modele.entities;
 
 import com.example.zeldasae.Algo.BFS;
+import com.example.zeldasae.modele.Direction;
 import com.example.zeldasae.modele.Monde;
 import com.example.zeldasae.modele.ProjectileEnnemi;
 import javafx.animation.PauseTransition;
@@ -29,7 +30,7 @@ public class Sentinelle extends Ennemi{
         ProjectileEnnemi p = new ProjectileEnnemi(2, 20, 30, 30, "Fleche");
 
         String direction = changeDirection();
-        p.setDirection(direction);
+        p.setDirection(Direction.stringToDirections(direction).get(0));
         p.setPosMap(this.getX(), this.getY(), direction);
         m.addProjectile(p);
         this.peutAttaquer = false;
