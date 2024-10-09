@@ -2,6 +2,9 @@ package com.example.zeldasae.modele;
 
 import javafx.beans.property.IntegerProperty;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class HitBox {
 
     private int large;
@@ -46,19 +49,19 @@ public class HitBox {
         return y;
     }
 
-    public boolean checkColision(String direction, int rows, Terrain terrain){
-        String[] dString = {"left","right","up","down"};
-        for (int i = 0; i < dString.length; i++){
+    public boolean checkColision(ArrayList<Direction> directions, int rows, Terrain terrain){
+        Direction[] dDirection = {Direction.LEFT, Direction.RIGHT, Direction.UP, Direction.DOWN};
+        for (int i = 0; i < dDirection.length; i++){
             int nx = getX() + (dLigne[i]*large);
             int ny = getY() + (dColonne[i]*haut);
-            if (i < 2 && direction.contains(dString[i])){
+            if (i < 2 && directions.contains(dDirection[i])){
                 nx += decalage[i];
                 for (int j = 0; j < large; j++){
                     if(!terrain.vide((nx / 30) + ((ny+j)/ 30 * rows)))
                         return false;
                 }
             }
-            else if (i > 1 && direction.contains(dString[i])){
+            else if (i > 1 && directions.contains(dDirection[i])){
                 ny += decalage[i];
                 for (int j = 0; j < haut; j++){
                     if(!terrain.vide(((nx+j) / 30) + (ny/ 30 * rows)))
@@ -69,28 +72,27 @@ public class HitBox {
         return true;
     }
 
-    public boolean checkBord(String direction, int column, int rows, int vitesse){
+    public boolean checkBord(Direction direction, int column, int rows, int vitesse){
         int X = (getX()/large)%(large*column);
         int Y = (getY()/haut)%(haut*rows);
         int nx;
         int ny;
-        if (direction.equals("up")){
+        if (direction.equals(Direction.UP)){
             if (getY()-vitesse < 0)
                 return false;
         }
-        if (direction.equals("down")){
+        if (direction.equals(Direction.DOWN)){
             ny = ((getY()-vitesse)/haut)%(haut*rows);
             if (Y == rows-1 && Y != ny)
                 return false;
         }
-        if (direction.equals("left")){
+        if (direction.equals(Direction.LEFT)){
             if (getX()-vitesse < 0)
                 return false;
         }
-        if (direction.equals("right")){
+        if (direction.equals(Direction.RIGHT)){
             nx = ((getX()-vitesse)/this.large)%(large*column);
-            if (X == column-1 && X != nx)
-                return false;
+            return X != column - 1 || X == nx;
         }
 
         return true;
@@ -144,22 +146,18 @@ public class HitBox {
         return false;
     }
 
-    public boolean degatBlocs(Terrain terrain, String direction){
-        if (direction.contains("up")){
-            if (terrain.isCactus(terrain.changeCoo(getX(), getY()-30)))
-                return true;
+    public boolean degatBlocs(Terrain terrain, ArrayList<Direction> directions){
+        if (directions.contains(Direction.UP)){
+            return terrain.isCactus(terrain.changeCoo(getX(), getY()-30));
         }
-        if (direction.contains("down")){
-            if (terrain.isCactus(terrain.changeCoo(getX(), getY()+30)))
-                return true;
+        if (directions.contains(Direction.DOWN)){
+            return terrain.isCactus(terrain.changeCoo(getX(), getY()+30));
         }
-        if (direction.contains("right")){
-            if (terrain.isCactus(terrain.changeCoo(getX()+30, getY())))
-                return true;
+        if (directions.contains(Direction.RIGHT)){
+            return terrain.isCactus(terrain.changeCoo(getX()+30, getY()));
         }
-        if (direction.contains("left")){
-            if (terrain.isCactus(terrain.changeCoo(getX()-30, getY())))
-                return true;
+        if (directions.contains(Direction.LEFT)){
+            return terrain.isCactus(terrain.changeCoo(getX() - 30, getY()));
         }
         return false;
     }

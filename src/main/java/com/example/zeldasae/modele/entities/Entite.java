@@ -172,25 +172,25 @@ public abstract class Entite {
             int x = getX();
             int y = getY();
 
-            if (this.deplacement.contains(Direction.UP) && checkHitBox("up", m.getTerrain()))
+            if (this.deplacement.contains(Direction.UP) && checkHitBox(Direction.UP, m.getTerrain()))
                 if (checkUp(m, vitesse)) {
                     dy -= vitesse;
                     addDirection("up");
                     setY(getY() + dy);
                 }
-            if (this.deplacement.contains(Direction.DOWN) && checkHitBox("down", m.getTerrain()))
+            if (this.deplacement.contains(Direction.DOWN) && checkHitBox(Direction.DOWN, m.getTerrain()))
                 if (checkDown(m, vitesse)) {
                     dy += vitesse;
                     addDirection("down");
                     setY(getY() + dy);
                 }
-            if (this.deplacement.contains(Direction.LEFT) && checkHitBox("left", m.getTerrain()))
+            if (this.deplacement.contains(Direction.LEFT) && checkHitBox(Direction.LEFT, m.getTerrain()))
                 if (checkLeft(m, vitesse)) {
                     dx -= vitesse;
                     addDirection("left");
                     setX(getX() + dx);
                 }
-            if (this.deplacement.contains(Direction.RIGHT) && checkHitBox("right", m.getTerrain()))
+            if (this.deplacement.contains(Direction.RIGHT) && checkHitBox(Direction.RIGHT, m.getTerrain()))
                 if (checkRight(m, vitesse)) {
                     dx += vitesse;
                     addDirection("right");
@@ -203,11 +203,13 @@ public abstract class Entite {
         return false;
     }
 
-    private boolean checkHitBox(String direction, Terrain terrain){
-        if (hitBox.checkColision(direction, this.rows, terrain)) {
+    private boolean checkHitBox(Direction direction, Terrain terrain){
+        ArrayList<Direction> directions = new ArrayList<>();
+        directions.add(direction);
+        if (hitBox.checkColision(directions, this.rows, terrain)) {
             return hitBox.checkBord(direction, this.column, this.rows, this.vitesse);
         }
-        if (hitBox.degatBlocs(terrain, direction))
+        if (hitBox.degatBlocs(terrain, directions))
             this.perdreVie(1);
         return false;
     }
