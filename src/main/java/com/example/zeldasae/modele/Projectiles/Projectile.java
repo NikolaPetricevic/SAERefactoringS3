@@ -3,6 +3,7 @@ package com.example.zeldasae.modele.Projectiles;
 import com.example.zeldasae.modele.HitBox;
 import com.example.zeldasae.modele.Monde;
 import com.example.zeldasae.modele.Terrain;
+import com.example.zeldasae.modele.Direction;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.input.KeyEvent;
 

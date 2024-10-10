@@ -1,7 +1,7 @@
 package com.example.zeldasae.Vue;
 
 import com.example.zeldasae.modele.Direction;
-import com.example.zeldasae.modele.Projectile;
+import com.example.zeldasae.modele.Projectiles.Projectile;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
