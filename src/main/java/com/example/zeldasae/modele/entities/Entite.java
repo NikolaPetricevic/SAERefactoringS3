@@ -232,7 +232,7 @@ public abstract class Entite {
         return !detecterColision(m, decalages).contains(Direction.RIGHT);
     }
     public boolean checkLeft(Monde m, int decalages){
-        return !detecterColision(m, decalages).contains(Direction.DOWN);
+        return !detecterColision(m, decalages).contains(Direction.LEFT);
     }
     public ArrayList<Direction> detecterColision(Monde m, int decalages){
         ArrayList<Direction> colisions = new ArrayList<>();

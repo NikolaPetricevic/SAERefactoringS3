@@ -17,6 +17,7 @@ public enum Direction {
 
     public static ArrayList<Direction> stringToDirections(String string) {
         ArrayList<Direction> directions = new ArrayList<>();
+        string = string.toLowerCase();
         if (string.contains("up")) directions.add(Direction.UP);
         if (string.contains("down")) directions.add(Direction.DOWN);
         if (string.contains("left")) directions.add(Direction.LEFT);
@@ -24,9 +25,23 @@ public enum Direction {
         return directions;
     }
 
+    public static Direction stringToDirection(String string) {
+        ArrayList<Direction> directions = stringToDirections(string);
+        if (!directions.isEmpty()) return directions.get(0);
+        return null;
+    }
+
     public Direction directionOpposee() {
         if (this.ordinal() % 2 == 0) return values()[this.ordinal() + 1];
         else return values()[this.ordinal() - 1];
+    }
+
+    public boolean isVertical() {
+        return this == UP || this == DOWN;
+    }
+
+    public boolean isHorizontal() {
+        return !isVertical();
     }
 
 }

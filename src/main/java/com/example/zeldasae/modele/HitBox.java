@@ -91,7 +91,7 @@ public class HitBox {
                 return false;
         }
         if (direction.equals(Direction.RIGHT)){
-            nx = ((getX()-vitesse)/this.large)%(large*column);
+            nx = ((getX()-vitesse)/large)%(large*column);
             return X != column - 1 || X == nx;
         }
 
@@ -128,6 +128,7 @@ public class HitBox {
                 directions.add(Direction.RIGHT);
             }
         }
+        System.out.println(directions);
         return directions;
     }
 

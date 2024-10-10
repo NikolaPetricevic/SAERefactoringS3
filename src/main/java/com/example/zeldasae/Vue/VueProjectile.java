@@ -1,5 +1,6 @@
 package com.example.zeldasae.Vue;
 
+import com.example.zeldasae.modele.Direction;
 import com.example.zeldasae.modele.Projectile;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,11 +38,11 @@ public class VueProjectile {
         switch (p.getType()) {
             case "Fleche":
                 image = new ImageView(new Image("file:src/main/resources/com/example/zeldasae/assets/Fleche.png"));
-                if (p.getDirection().equals("RIGHT"))
+                if (p.getDirection().equals(Direction.RIGHT))
                     image.setRotate(90);
-                if (p.getDirection().equals("LEFT"))
+                if (p.getDirection().equals(Direction.LEFT))
                     image.setRotate(270);
-                if (p.getDirection().equals("DOWN"))
+                if (p.getDirection().equals(Direction.DOWN))
                     image.setRotate(180);
                 image.setFitWidth(20);
                 image.setFitHeight(20);
@@ -55,11 +56,11 @@ public class VueProjectile {
                 image = new ImageView(new Image("file:src/main/resources/com/example/zeldasae/assets/projectileMagique.png"));
                 image.setFitWidth(30);
                 image.setFitHeight(30);
-                if (p.getDirection().equals("RIGHT"))
+                if (p.getDirection().equals(Direction.RIGHT))
                     image.setRotate(180);
-                if (p.getDirection().equals("UP"))
+                if (p.getDirection().equals(Direction.UP))
                     image.setRotate(90);
-                if (p.getDirection().equals("DOWN"))
+                if (p.getDirection().equals(Direction.DOWN))
                     image.setRotate(270);
                 break;
             default:

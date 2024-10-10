@@ -63,7 +63,7 @@ public abstract class Ennemi extends Entite {
         }while (width <= this.getWidth() && width2 >= 0);
 
         this.setDirection(Direction.directionsToString(this.getDeplacement()));
-        if (getDirection() == null)
+        if (getDirection().isEmpty())
             attaqueEntite(m.getJoueur());
         return deplacement;
     }

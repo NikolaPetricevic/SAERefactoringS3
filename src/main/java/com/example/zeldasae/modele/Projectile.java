@@ -20,7 +20,7 @@ public abstract class Projectile {
         this.degats = degats;
         this.vitesse = vitesse;
         this.hitBox = new HitBox(large, haut, new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
-        this.direction = Direction.stringToDirections(keyEvent.getCode().toString()).get(0);
+        this.direction = Direction.stringToDirection(keyEvent.getCode().toString());
         this.obstacleTouche = false;
         this.type = type;
         this.retireEnnemiTouche = retireEnnemiTouche;
@@ -66,25 +66,17 @@ public abstract class Projectile {
     }
 
     public void setPosMap(int x, int y, String keyEvent) {
-        switch (keyEvent) {
-            case "LEFT":
-                this.hitBox.setX(x-this.hitBox.getLarge());
-                this.hitBox.setY(y);
-                break;
-            case "RIGHT":
-                this.hitBox.setX(x+30);
-                this.hitBox.setY(y);
-                break;
-            case "UP":
-                this.hitBox.pivote();
-                this.hitBox.setX(x+10);
-                this.hitBox.setY(y-this.hitBox.getHaut());
-                break;
-            case "DOWN":
-                this.hitBox.pivote();
-                this.hitBox.setX(x+10);
-                this.hitBox.setY(y+30);
-                break;
+        Direction direction = Direction.stringToDirection(keyEvent);
+        if (direction.isHorizontal()) {
+            this.hitBox.setY(y);
+            if (direction == Direction.LEFT) this.hitBox.setX(x-this.hitBox.getLarge());
+            else this.hitBox.setX(x+30);
+        }
+        else {
+            this.hitBox.pivote();
+            this.hitBox.setX(x+10);
+            if (direction == Direction.UP) this.hitBox.setY(y-this.hitBox.getHaut());
+            else this.hitBox.setY(y+30);
         }
     }
 

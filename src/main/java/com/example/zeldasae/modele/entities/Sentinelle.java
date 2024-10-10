@@ -7,6 +7,8 @@ import com.example.zeldasae.modele.ProjectileEnnemi;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+
 public class Sentinelle extends Ennemi{
 
     private boolean peutAttaquer;
@@ -30,7 +32,7 @@ public class Sentinelle extends Ennemi{
         ProjectileEnnemi p = new ProjectileEnnemi(2, 20, 30, 30, "Fleche");
 
         String direction = changeDirection();
-        p.setDirection(Direction.stringToDirections(direction).get(0));
+        if (!Direction.stringToDirections(direction).isEmpty()) p.setDirection(Direction.stringToDirection(direction));
         p.setPosMap(this.getX(), this.getY(), direction);
         m.addProjectile(p);
         this.peutAttaquer = false;
