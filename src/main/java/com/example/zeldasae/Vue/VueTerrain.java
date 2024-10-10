@@ -23,8 +23,8 @@ public class VueTerrain {
     private Image[] fogs;
     private ArrayList<Integer> m2;
 
-    public VueTerrain(Monde map, TilePane mapPane ,ArrayList<Integer> m1, ArrayList<Integer> m2) {
-        this.map = map;
+    public VueTerrain(TilePane mapPane ,ArrayList<Integer> m1, ArrayList<Integer> m2) {
+        this.map = Monde.getInstance();
         this.mapPane = mapPane;
         this.m2 = m2;
         map.setMap(m1);

@@ -10,14 +10,14 @@ public class ProjectileJoueur extends Projectile {
     }
 
     @Override
-    public void checkCoupTouche(Monde map) {
-        for (Ennemi e : map.getListeEnnemis()) {
+    public void checkCoupTouche() {
+        for (Ennemi e : Monde.getInstance().getListeEnnemis()) {
                 if (e.getHitBox().estDedansHitbox(super.getHitBox()) && !super.isObstacleTouche() && this.isRetireEnnemiTouche()) {
                     super.setObstacleTouche(true);
                     e.perdreVie(getDegats());
                 }
                 else if(e.getHitBox().estDedansHitbox(super.getHitBox()) && !super.isObstacleTouche()) {
-                    map.getJoueur().getInv().getArmeActuelle().infligerDegats(e);
+                    Monde.getInstance().getJoueur().getInv().getArmeActuelle().infligerDegats(e);
             }
         }
     }

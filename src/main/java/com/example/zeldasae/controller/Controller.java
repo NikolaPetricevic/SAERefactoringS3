@@ -106,44 +106,44 @@ public class Controller implements Initializable {
         this.mapPane.setPrefWidth(this.mapPane.getPrefTileWidth()*this.mapPane.getPrefColumns());
         this.mapPane.setPrefHeight(this.mapPane.getPrefTileHeight()*this.mapPane.getPrefRows());
 
-        BFS bfs =new BFS();
-        Joueur joueur = new Joueur(600, 510, mapPane.getPrefColumns(), mapPane.getPrefRows());
-        VueJoueur vueJoueur = new VueJoueur(joueur, paneEntites, temps);
-        joueur.pvProperty().addListener(new ObservateurVie(joueur, vueJoueur));
+        Monde.initMonde(loadJSON.getPrefRows(), loadJSON.getPrefColumns());
+        this.map = Monde.getInstance();
 
-        this.map = new Monde(joueur, bfs, loadJSON.getPrefRows(), loadJSON.getPrefColumns());
+        VueJoueur vueJoueur = new VueJoueur(map.getJoueur(), paneEntites, temps);
+        map.getJoueur().pvProperty().addListener(new ObservateurVie(map.getJoueur(), vueJoueur));
 
-        VueTerrain vueTerrain = new VueTerrain(this.map, this.mapPane, loadJSON.getMap(), loadJSON.getMap2());
+
+        VueTerrain vueTerrain = new VueTerrain(this.mapPane, loadJSON.getMap(), loadJSON.getMap2());
         this.map.getListeEnnemis().addListener(new ObservateurEnnemis(paneEntites, temps, vueTerrain));
         this.map.initEnnemis();
 
 
         VueInventaire vueInv = new VueInventaire(this.boxInventaire, this.map.getJoueur());
-        this.createurVueArme = new CreateurVueArme(joueur, this.paneEntites, map, vueTerrain);
+        this.createurVueArme = new CreateurVueArme(Monde.getInstance().getJoueur(), this.paneEntites, map, vueTerrain);
         this.vueCollectible = new VueCollectible(paneEntites);
         this.vueProjectile = new VueProjectile(paneEntites);
 
-        joueur.getInv().getListeItems().addListener(new ObservateurItems(vueInv));
-        joueur.getInv().ajouterItem(new Epee());
+        map.getJoueur().getInv().getListeItems().addListener(new ObservateurItems(vueInv));
+        map.getJoueur().getInv().ajouterItem(new Epee()); //  -> méthode à revoir en vrai, essaye de la déplacer autre part
         this.map.getListeProjectiles().addListener(new ObservateurProjectiles(vueProjectile));
         this.map.getListeCollectibles().addListener(new ObservateurCollectibles(vueCollectible));
 
-        bfs.lanceAlgo(map, mapPane.getPrefColumns(), mapPane.getPrefRows());
+        map.getBfs().lanceAlgo(mapPane.getPrefColumns(), mapPane.getPrefRows());
 
         ObservateurMouvement observateurMouvement = new ObservateurMouvement(this.map, this.mapPane, this.paneEntites, vueJoueur);
 
-        joueur.xProperty().addListener(observateurMouvement);
-        joueur.yProperty().addListener(observateurMouvement);
+        map.getJoueur().xProperty().addListener(observateurMouvement);
+        map.getJoueur().yProperty().addListener(observateurMouvement);
 
         // Création des coffres
 
         Coffre coffre = new Coffre(2160, 2190, 0);
-        VueCoffre vueCoffre = new VueCoffre(boxCoffre1, joueur, coffre, vueInv);
+        VueCoffre vueCoffre = new VueCoffre(boxCoffre1, map.getJoueur(), coffre, vueInv);
         this.map.addCoffre(coffre);
         coffre.getListeItem().addListener(new ObservateurItemsCoffre(vueCoffre));
 
         Coffre coffre2 = new Coffre(2640, 750, 1);
-        VueCoffre vueCoffre2 = new VueCoffre(boxCoffre2, joueur, coffre2, vueInv);
+        VueCoffre vueCoffre2 = new VueCoffre(boxCoffre2, map.getJoueur(), coffre2, vueInv);
         this.map.addCoffre(coffre2);
         coffre2.getListeItem().addListener(new ObservateurItemsCoffre(vueCoffre2));
 
@@ -187,7 +187,7 @@ public class Controller implements Initializable {
         KeyFrame kf = new KeyFrame(
                 Duration.seconds(0.040),
                 (ev ->{
-                    this.map.getJoueur().deplacement(map);
+                    this.map.getJoueur().deplacement();
 
                     if (temps.getValue()%2==0) {
                         this.map.deplacementEnnemi();

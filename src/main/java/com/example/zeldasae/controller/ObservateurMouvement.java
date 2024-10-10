@@ -23,7 +23,7 @@ public class ObservateurMouvement implements ChangeListener<Number> {
 
     @Override
     public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-        this.map.getBfs().lanceAlgo(map, mapPane.getPrefColumns(), mapPane.getPrefRows());
+        this.map.getBfs().lanceAlgo(mapPane.getPrefColumns(), mapPane.getPrefRows());
         if (observable == this.map.getJoueur().xProperty()) {
             if (oldValue.intValue() > 600 && newValue.intValue() > 600 &&
                     oldValue.intValue() <= 610 + (mapPane.getPrefColumns()*mapPane.getPrefTileWidth() - 1200) && newValue.intValue() <= 610 + (mapPane.getPrefColumns()*mapPane.getPrefTileWidth() - 1200)) {

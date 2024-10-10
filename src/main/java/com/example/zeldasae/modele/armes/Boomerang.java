@@ -17,21 +17,23 @@ public class Boomerang extends Arme {
         this.ennemisTouchesAller = new ArrayList<>();
     }
 
-    public Projectile creerProjectile(KeyEvent keyEvent, Monde map) {
+    public Projectile creerProjectile(KeyEvent keyEvent) {
+
         Projectile boomerang = new ProjectileJoueur(getDegats(), 30, 20, 20, keyEvent, "Boomerang", false);
-        boomerang.setPosMap(map.getJoueur().getHitBox().getX(), map.getJoueur().getHitBox().getY(), keyEvent.getCode().toString());
+        boomerang.setPosMap(Monde.getInstance().getJoueur().getHitBox().getX(), Monde.getInstance().getJoueur().getHitBox().getY(), keyEvent.getCode().toString());
         return boomerang;
     }
 
     @Override
-    public void attaquer(KeyEvent keyEvent, Monde map) {
-        Projectile p = creerProjectile(keyEvent, map);
+    public void attaquer(KeyEvent keyEvent) {
+        Monde map = Monde.getInstance();
+        Projectile p = creerProjectile(keyEvent);
         map.addProjectile(p);
 
         map.getJoueur().setPeutDonnerCoup(false);
 
         PauseTransition pause1 = new PauseTransition(Duration.seconds(map.getJoueur().getInv().getArmeActuelle().getDelaiRecuperation()));
-        pause1.setOnFinished(event -> supprimerBoomerang(map, p));
+        pause1.setOnFinished(event -> supprimerBoomerang(p));
         pause1.play();
 
         PauseTransition pause2 = new PauseTransition(Duration.seconds(1.25));
@@ -44,8 +46,8 @@ public class Boomerang extends Arme {
         this.ennemisTouchesAller.clear();
     }
 
-    public void supprimerBoomerang(Monde map, Projectile p) {
-        map.getJoueur().setPeutDonnerCoup(true);
+    public void supprimerBoomerang(Projectile p) {
+        Monde.getInstance().getJoueur().setPeutDonnerCoup(true);
         p.setObstacleTouche(true);
         this.ennemisTouchesAller.clear();
     }
