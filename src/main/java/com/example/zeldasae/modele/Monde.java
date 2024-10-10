@@ -107,26 +107,27 @@ public class Monde {
         }
     }
 
-    public int[] cooBloc(int x, int y, String direction){
+    public int[] cooBloc(int x, int y, String direction) {
+
+        switch (direction) {
+            case "up":
+                return cooBlocS(x, y, -100);
+            case "down":
+                return cooBlocS(x, y, 100);
+            case "right":
+                return cooBlocS(x, y, -1);
+            case "left":
+                return cooBlocS(x, y, 1);
+        }
+        return null;
+    }
+
+    public int[] cooBlocS(int x, int y, int n){
         int coo = terrain.changeCoo(x, y);
-        int coobloc = 0;
-        int coovide = 0;
-        if (direction.contains("up")){
-            coobloc = coo - 100;
-            coovide = coobloc - 100;
-        }
-        else if (direction.contains("down")){
-            coobloc = coo + 100;
-            coovide = coobloc + 100;
-        }
-        else if (direction.contains("right")){
-            coobloc = coo + 1;
-            coovide = coobloc + 1;
-        }
-        else if (direction.contains("left")){
-            coobloc = coo - 1;
-            coovide = coobloc - 1;
-        }
+
+        int coobloc = coo +n ;
+        int coovide = coobloc +n;
+
         return new int[]{coobloc, coovide};
     }
 
