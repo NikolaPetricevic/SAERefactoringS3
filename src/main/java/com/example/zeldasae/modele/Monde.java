@@ -1,6 +1,7 @@
 package com.example.zeldasae.modele;
 
 import com.example.zeldasae.Algo.BFS;
+import com.example.zeldasae.modele.Projectiles.Projectile;
 import com.example.zeldasae.modele.armes.Arc;
 import com.example.zeldasae.modele.armes.Boomerang;
 import com.example.zeldasae.modele.armes.Hache;

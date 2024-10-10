@@ -1,5 +1,8 @@
-package com.example.zeldasae.modele;
+package com.example.zeldasae.modele.Projectiles;
 
+import com.example.zeldasae.modele.HitBox;
+import com.example.zeldasae.modele.Monde;
+import com.example.zeldasae.modele.Terrain;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.input.KeyEvent;
 
@@ -14,8 +17,8 @@ public abstract class Projectile {
     private boolean obstacleTouche;
     private boolean retireEnnemiTouche;
     private String type;
-
-    public Projectile(int degats, int vitesse, int large, int haut, KeyEvent keyEvent, String type, boolean retireEnnemiTouche) {
+    private ProjectileTouché projectileTouch;
+    public Projectile(int degats, int vitesse, int large, int haut, KeyEvent keyEvent, String type, boolean retireEnnemiTouche) { //Constructeur du joueur
         this.nom = "Proj" + compteur;
         this.degats = degats;
         this.vitesse = vitesse;
@@ -24,6 +27,7 @@ public abstract class Projectile {
         this.obstacleTouche = false;
         this.type = type;
         this.retireEnnemiTouche = retireEnnemiTouche;
+        this.projectileTouch = new DepuisJoueur();
         compteur++;
     }
 
@@ -34,6 +38,7 @@ public abstract class Projectile {
         this.hitBox = new HitBox(large, haut, new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
         this.obstacleTouche = false;
         this.type = type;
+        this.projectileTouch = new DepuisEnnemi();
         compteur++;
     }
 
@@ -106,7 +111,9 @@ public abstract class Projectile {
         checkCoupTouche(map);
     }
 
-    public abstract void checkCoupTouche(Monde map);
+    public void checkCoupTouche(Monde map){
+        this.projectileTouch.checkCoupTouche(map,this);
+    }
 
     public boolean dansMap(Terrain terrain) {
         return terrain.vide((this.getHitBox().getX() / 30) + (this.getHitBox().getY() / 30 * terrain.getRows()));

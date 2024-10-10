@@ -1,8 +1,8 @@
 package com.example.zeldasae.controller;
 
 import com.example.zeldasae.Vue.VueProjectile;
-import com.example.zeldasae.modele.Projectile;
-import com.example.zeldasae.modele.ProjectileJoueur;
+import com.example.zeldasae.modele.Projectiles.Projectile;
+import com.example.zeldasae.modele.Projectiles.ProjectileJoueur;
 import javafx.collections.ListChangeListener;
 
 public class ObservateurProjectiles implements ListChangeListener<Projectile> {
