@@ -158,11 +158,10 @@ public abstract class Entite {
 
     /**
      * Méthode qui gère le déplacement d'une Entite sur le pane
-     * @param m le monde contenant le terrain, le joueur et la liste d'ennemis qui est passé en paramètre à la méthode
-     *          checkDeplacement()
      * @return true si le déplacement a été effectué sinon false
      */
-    public boolean deplacement(Monde m) {
+    public boolean deplacement() {
+        Monde m = Monde.getInstance();
         if (verifVivant()) {
             int dx = 0;
             int dy = 0;
@@ -170,25 +169,25 @@ public abstract class Entite {
             int y = getY();
 
             if (this.deplacement.contains("up") && checkHitBox("up", m.getTerrain()))
-                if (checkUp(m, vitesse)) {
+                if (checkUp(vitesse)) {
                     dy -= vitesse;
                     addDirection("up");
                     setY(getY() + dy);
                 }
             if (this.deplacement.contains("down") && checkHitBox("down", m.getTerrain()))
-                if (checkDown(m, vitesse)) {
+                if (checkDown(vitesse)) {
                     dy += vitesse;
                     addDirection("down");
                     setY(getY() + dy);
                 }
             if (this.deplacement.contains("left") && checkHitBox("left", m.getTerrain()))
-                if (checkLeft(m, vitesse)) {
+                if (checkLeft(vitesse)) {
                     dx -= vitesse;
                     addDirection("left");
                     setX(getX() + dx);
                 }
             if (this.deplacement.contains("right") && checkHitBox("right", m.getTerrain()))
-                if (checkRight(m, vitesse)) {
+                if (checkRight(vitesse)) {
                     dx += vitesse;
                     addDirection("right");
                     setX(getX() + dx);
@@ -209,38 +208,38 @@ public abstract class Entite {
         return false;
     }
 
-    public boolean checkColisionEntite(Monde m, int x, int y){
-        for (Ennemi ennemi : m.getListeEnnemis()){
+    public boolean checkColisionEntite(int x, int y){
+        for (Ennemi ennemi : Monde.getInstance().getListeEnnemis()){
             if (this != ennemi && ennemi.getHitBox().contient(x,y))
                 return true;
         }
         return false;
     }
 
-    public boolean checkUp(Monde m, int decalages){
+    public boolean checkUp(int decalages){
         for (int i = 0; i <= width; i++){
-            if (checkColisionEntite(m, getX() + i, getY() - decalages))
+            if (checkColisionEntite(getX() + i, getY() - decalages))
                 return false;
         }
         return true;
     }
-    public boolean checkDown(Monde m, int decalages){
+    public boolean checkDown(int decalages){
         for (int i = 0; i <= width; i++){
-            if (checkColisionEntite(m, getX() + i, getY() + height + decalages))
+            if (checkColisionEntite(getX() + i, getY() + height + decalages))
                 return false;
         }
         return true;
     }
-    public boolean checkRight(Monde m, int decalages){
+    public boolean checkRight(int decalages){
         for (int i = 0; i <= height; i++){
-            if (checkColisionEntite(m, getX() + width + decalages, getY() + i))
+            if (checkColisionEntite(getX() + width + decalages, getY() + i))
                 return false;
         }
         return true;
     }
-    public boolean checkLeft(Monde m, int decalages){
+    public boolean checkLeft(int decalages){
         for (int i = 0; i <= height; i++){
-            if (checkColisionEntite(m, getX() - decalages, getY() + i))
+            if (checkColisionEntite(getX() - decalages, getY() + i))
                 return false;
         }
         return true;

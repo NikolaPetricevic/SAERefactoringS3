@@ -7,10 +7,10 @@ public class ProjectileEnnemi extends Projectile {
     }
 
     @Override
-    public void checkCoupTouche(Monde map) {
-        if (this.getHitBox().estDedansHitbox(map.getJoueur().getHitBox()) && !super.isObstacleTouche()) {
+    public void checkCoupTouche() {
+        if (this.getHitBox().estDedansHitbox(Monde.getInstance().getJoueur().getHitBox()) && !super.isObstacleTouche()) {
             super.setObstacleTouche(true);
-            map.getJoueur().perdreVie(getDegats());
+            Monde.getInstance().getJoueur().perdreVie(getDegats());
         }
     }
 

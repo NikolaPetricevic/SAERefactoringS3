@@ -73,14 +73,14 @@ public class BFS {
 
     /**
      * Méthode qui lance le BFS pour mettre à jour la Map
-     * @param monde Monde du jeu
      * @param colonnes nombre de colonnes
      * @param lignes nombre de lignes
      */
-    public void lanceAlgo(Monde monde, int colonnes, int lignes){
-        int[][] grille = convertListTo2DArray(monde.getTerrain().getMap(), colonnes, lignes);
-        int x = (monde.getJoueur().getX()/30)%(30*lignes);
-        int y = (monde.getJoueur().getY()/30)%(30*colonnes);
+    public void lanceAlgo(int colonnes, int lignes){
+        Monde map = Monde.getInstance();
+        int[][] grille = convertListTo2DArray(map.getTerrain().getMap(), colonnes, lignes);
+        int x = (map.getJoueur().getX()/30)%(30*lignes);
+        int y = (map.getJoueur().getY()/30)%(30*colonnes);
         bfs2D(grille, new Point(x, y));
     }
 
