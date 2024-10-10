@@ -3,7 +3,7 @@ package com.example.zeldasae.modele.entities;
 import com.example.zeldasae.Algo.BFS;
 import com.example.zeldasae.modele.Direction;
 import com.example.zeldasae.modele.Monde;
-import com.example.zeldasae.modele.ProjectileEnnemi;
+import com.example.zeldasae.modele.Projectiles.ProjectileEnnemi;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 
