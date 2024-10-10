@@ -17,21 +17,21 @@ public class Sentinelle extends Ennemi{
     }
 
     @Override
-    public boolean deplacement(Monde m) {
+    public boolean deplacement() {
         int x = (this.getX()/ 30) % (30 * this.getColumn());
         int y = (this.getY() / 30) % (30 * this.getRows());
         if (this.getBfs().distanceMouvement(new int[]{x, y}) < 15 && peutAttaquer)
-            attaqueDistance(m);
-        return super.deplacement(m);
+            attaqueDistance();
+        return super.deplacement();
     }
 
-    private void attaqueDistance(Monde m){
+    private void attaqueDistance(){
         ProjectileEnnemi p = new ProjectileEnnemi(2, 20, 30, 30, "Fleche");
 
         String direction = changeDirection();
         p.setDirection(direction);
         p.setPosMap(this.getX(), this.getY(), direction);
-        m.addProjectile(p);
+        Monde.getInstance().addProjectile(p);
         this.peutAttaquer = false;
         PauseTransition pause = new PauseTransition(Duration.seconds(2));
         pause.setOnFinished(event -> this.peutAttaquer = true);

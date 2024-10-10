@@ -66,17 +66,19 @@ public abstract class Arme extends Item {
         }
     }
 
-    public void checkCoupTouche(Monde map) {
-       for (Ennemi e : map.getListeEnnemis()) {
+    public void checkCoupTouche() {
+       for (Ennemi e : Monde.getInstance().getListeEnnemis()) {
            if (e.getHitBox().estDedansHitbox(this.hitBox)) {
                infligerDegats(e);
            }
        }
     }
 
-    public void attaquer(KeyEvent keyEvent, Monde map) {
+    public void attaquer(KeyEvent keyEvent) {
+        Monde map = Monde.getInstance();
+
         this.setPosMap(map.getJoueur().getX(), map.getJoueur().getY(), keyEvent);
-        this.checkCoupTouche(map);
+        this.checkCoupTouche();
         map.getJoueur().setPeutDonnerCoup(false);
 
         PauseTransition pause = new PauseTransition(Duration.seconds(map.getJoueur().getInv().getArmeActuelle().getDelaiRecuperation()));
@@ -84,7 +86,7 @@ public abstract class Arme extends Item {
         pause.play();
     }
 
-    public boolean peutAttaquer(Monde map) {
+    public boolean peutAttaquer() {
         return true;
     }
 

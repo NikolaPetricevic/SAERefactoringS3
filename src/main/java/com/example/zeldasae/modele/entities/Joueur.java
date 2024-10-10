@@ -3,6 +3,7 @@ package com.example.zeldasae.modele.entities;
 import com.example.zeldasae.modele.Coffre;
 import com.example.zeldasae.modele.Inventaire;
 import com.example.zeldasae.modele.Monde;
+import com.example.zeldasae.modele.armes.Epee;
 import javafx.animation.PauseTransition;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
@@ -53,15 +54,15 @@ public class Joueur extends Entite {
         }
     }
 
-    public void attaquer(KeyEvent keyEvent, Monde map) {
+    public void attaquer(KeyEvent keyEvent) {
         this.setPeutDonnerCoup(false);
-        this.getInv().getArmeActuelle().attaquer(keyEvent, map);
+        this.getInv().getArmeActuelle().attaquer(keyEvent);
     }
 
     @Override
-    public boolean deplacement(Monde m) {
-        boolean deplacement = super.deplacement(m);
-        if (m.getTerrain().isBrouillard(m.getTerrain().changeCoo(getX(), getY())) && !inv.possedeCharme()) {
+    public boolean deplacement() {
+        boolean deplacement = super.deplacement();
+        if (Monde.getInstance().getTerrain().isBrouillard(Monde.getInstance().getTerrain().changeCoo(getX(), getY())) && !inv.possedeCharme()) {
             if (this.getPv()/2 != 0)
                 this.perdreVie(this.getPv() / 2);
             else this.perdreVie(this.getPv());
@@ -72,8 +73,8 @@ public class Joueur extends Entite {
         return deplacement;
     }
 
-    public boolean peutOuvrirUnCoffre(Monde monde, Coffre coffre, int tailleBloc) {
-        for (Coffre c : monde.getCoffres()) {
+    public boolean peutOuvrirUnCoffre(Coffre coffre, int tailleBloc) {
+        for (Coffre c : Monde.getInstance().getCoffres()) {
             if (coffre.getId() == c.getId() && this.getHitBox().coffreProximite(c, tailleBloc)) {
                 return true;
             }
@@ -81,9 +82,9 @@ public class Joueur extends Entite {
         return false;
     }
 
-    public boolean peutAttaquerArme(Monde map) {
+    public boolean peutAttaquerArme() {
         if (getInv().getArmeActuelle() != null)
-            return getInv().getArmeActuelle().peutAttaquer(map);
+            return getInv().getArmeActuelle().peutAttaquer();
         else
             return false;
     }

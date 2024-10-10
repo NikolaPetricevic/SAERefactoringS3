@@ -16,6 +16,8 @@ import java.util.List;
 
 public class Monde {
 
+    private static Monde uniqueInstance = null;
+
     private Terrain terrain;
     private Joueur joueur;
     private ObservableList<Ennemi> listeEnnemis;
@@ -24,17 +26,24 @@ public class Monde {
     private BFS bfs;
     private List<Coffre> coffres;
 
+    public static void initMonde(int rows, int columns) {
+        uniqueInstance = new Monde(rows, columns);
+    }
+
+    public static Monde getInstance() {
+        return uniqueInstance;
+    }
+
     /**
      * Constructeur de la classe Monde
      */
-    public Monde(Joueur joueur, BFS bfs, int rows, int columns) {
-
-        this.joueur = joueur;
+    private Monde(int rows, int columns) {
+        this.joueur = new Joueur(600, 510, columns, rows);
+        this.bfs = new BFS();
         this.terrain = new Terrain(rows, columns);
         this.listeEnnemis = FXCollections.observableArrayList();
         this.listeProjectiles = FXCollections.observableArrayList();
         this.listeCollectibles = FXCollections.observableArrayList();
-        this.bfs = bfs;
         this.coffres = new ArrayList<>();
     }
 
@@ -84,7 +93,7 @@ public class Monde {
 
     public void deplacementEnnemi(){
         for (Ennemi ennemi : this.listeEnnemis) {
-            ennemi.deplacement(this);
+            ennemi.deplacement();
         }
     }
 
@@ -127,7 +136,7 @@ public class Monde {
 
     public void deplacerProjectiles() {
         for (int i = 0; i < this.listeProjectiles.size(); i++) {
-            this.listeProjectiles.get(i).seDeplace(this);
+            this.listeProjectiles.get(i).seDeplace();
             if (listeProjectiles.get(i).aRetirer(terrain)) {
                 removeProjectile(this.listeProjectiles.get(i));
                 i--;
