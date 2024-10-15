@@ -109,17 +109,10 @@ public class Monde {
     }
 
     public int[] cooBloc(int x, int y, String direction) {
-
-        switch (direction) {
-            case "up":
-                return cooBlocS(x, y, -100);
-            case "down":
-                return cooBlocS(x, y, 100);
-            case "right":
-                return cooBlocS(x, y, -1);
-            case "left":
-                return cooBlocS(x, y, 1);
-        }
+        if (direction.contains("up")) return cooBlocS(x, y, -100);
+        if (direction.contains("down")) return cooBlocS(x, y, 100);
+        if (direction.contains("left")) return cooBlocS(x, y, -1);
+        if (direction.contains("right")) return cooBlocS(x, y, 1);
         return null;
     }
 

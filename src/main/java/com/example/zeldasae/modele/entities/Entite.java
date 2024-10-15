@@ -151,7 +151,6 @@ public abstract class Entite {
 
     public void attaqueEntite(Entite entite) {
         if (verifVivant()) {
-            System.out.println("attaque");
             entite.perdreVie(this.getDegats());
         }
     }
