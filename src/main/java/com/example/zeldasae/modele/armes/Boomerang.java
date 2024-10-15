@@ -44,7 +44,7 @@ public class Boomerang extends Arme {
     }
 
     public void inverserBoomerang(Projectile p) {
-        p.inverserDirection();
+        p.getDeplacementProjectile().inverserDirection();
         this.ennemisTouchesAller.clear();
     }
 

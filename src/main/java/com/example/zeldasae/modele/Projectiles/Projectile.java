@@ -1,7 +1,6 @@
 package com.example.zeldasae.modele.Projectiles;
 
 import com.example.zeldasae.modele.HitBox;
-import com.example.zeldasae.modele.Monde;
 import com.example.zeldasae.modele.Terrain;
 import com.example.zeldasae.modele.Direction;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -12,34 +11,32 @@ public abstract class Projectile {
     private String nom;
     public static int compteur = 0;
     private int degats;
-    private int vitesse;
     private HitBox hitBox;
-    private Direction direction;
     private boolean obstacleTouche;
     private boolean retireEnnemiTouche;
     private String type;
-    private ProjectileTouché projectileTouch;
+    private GestionnaireProjectile projectileTouch;
+    private DeplacementProjectile dp;
     public Projectile(int degats, int vitesse, int large, int haut, KeyEvent keyEvent, String type, boolean retireEnnemiTouche) { //Constructeur du joueur
         this.nom = "Proj" + compteur;
         this.degats = degats;
-        this.vitesse = vitesse;
         this.hitBox = new HitBox(large, haut, new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
-        this.direction = Direction.stringToDirection(keyEvent.getCode().toString());
         this.obstacleTouche = false;
         this.type = type;
         this.retireEnnemiTouche = retireEnnemiTouche;
         this.projectileTouch = new DepuisJoueur();
+        this.dp = new DeplacementProjectile(vitesse,Direction.stringToDirection(keyEvent.getCode().toString()),this);
         compteur++;
     }
 
     public Projectile(int degats, int vitesse, int large, int haut, String type) {
         this.nom = "Proj" + compteur;
         this.degats = degats;
-        this.vitesse = vitesse;
         this.hitBox = new HitBox(large, haut, new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
         this.obstacleTouche = false;
         this.type = type;
         this.projectileTouch = new DepuisEnnemi();
+        this.dp = new DeplacementProjectile(vitesse,this);
         compteur++;
     }
 
@@ -53,10 +50,10 @@ public abstract class Projectile {
         return this.nom;
     }
     public Direction getDirection() {
-        return this.direction;
+        return this.dp.getDirection();
     }
     public void setDirection(Direction direction) {
-        this.direction = direction;
+        this.dp.setDirection(direction);
     }
     public boolean isObstacleTouche() {
         return this.obstacleTouche;
@@ -70,7 +67,9 @@ public abstract class Projectile {
     public String getType() {
         return type;
     }
-
+    public DeplacementProjectile getDeplacementProjectile() {
+        return this.dp;
+    }
     public void setPosMap(int x, int y, String keyEvent) {
         Direction direction = Direction.stringToDirection(keyEvent);
         if (direction.isHorizontal()) {
@@ -86,23 +85,6 @@ public abstract class Projectile {
         }
     }
 
-    public void seDeplace() {
-        switch (this.direction) {
-            case UP:
-                getHitBox().setY(getHitBox().getY() - this.vitesse);
-                break;
-            case DOWN:
-                getHitBox().setY(getHitBox().getY() + this.vitesse);
-                break;
-            case LEFT:
-                getHitBox().setX(getHitBox().getX() - this.vitesse);
-                break;
-            case RIGHT:
-                getHitBox().setX(getHitBox().getX() + this.vitesse);
-                break;
-        }
-        this.checkCoupTouche();
-    }
 
     public void checkCoupTouche(){
         this.projectileTouch.checkCoupTouche(this);
@@ -112,9 +94,6 @@ public abstract class Projectile {
         return terrain.vide((this.getHitBox().getX() / 30) + (this.getHitBox().getY() / 30 * terrain.getRows()));
     }
 
-    public void inverserDirection() {
-        direction = direction.directionOpposee();
-    }
 
     public boolean aRetirer(Terrain terrain) {
         return isObstacleTouche() || !dansMap(terrain);

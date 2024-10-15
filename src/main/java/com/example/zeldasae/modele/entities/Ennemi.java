@@ -84,7 +84,7 @@ public abstract class Ennemi extends Entite {
         if (Monde.getInstance().getJoueur().getHitBox().contient(x, y)){
             return true;
         }
-        return super.checkColisionEntite(x, y);
+        return super.getDeplacementEntite().checkColisionEntite(x, y);
     }
 
     private Direction trouverDirection(){
@@ -104,4 +104,5 @@ public abstract class Ennemi extends Entite {
         }
         return null;
     }
+
 }

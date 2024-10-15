@@ -3,7 +3,7 @@ package com.example.zeldasae.modele.Projectiles;
 import com.example.zeldasae.modele.Monde;
 import com.example.zeldasae.modele.entities.Ennemi;
 
-public class DepuisJoueur implements ProjectileTouché{
+public class DepuisJoueur implements GestionnaireProjectile {
 
     @Override
     public void checkCoupTouche(Projectile p) {

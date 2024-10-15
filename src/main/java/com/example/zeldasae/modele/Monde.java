@@ -138,7 +138,7 @@ public class Monde {
 
     public void deplacerProjectiles() {
         for (int i = 0; i < this.listeProjectiles.size(); i++) {
-            this.listeProjectiles.get(i).seDeplace();
+            this.listeProjectiles.get(i).getDeplacementProjectile().seDeplace();
             if (listeProjectiles.get(i).aRetirer(terrain)) {
                 removeProjectile(this.listeProjectiles.get(i));
                 i--;

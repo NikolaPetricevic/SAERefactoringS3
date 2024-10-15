@@ -1,10 +1,8 @@
 package com.example.zeldasae.modele.Projectiles;
 
-import com.example.zeldasae.modele.HitBox;
 import com.example.zeldasae.modele.Monde;
-import com.example.zeldasae.modele.entities.Ennemi;
 
-public class DepuisEnnemi implements ProjectileTouché{
+public class DepuisEnnemi implements GestionnaireProjectile {
 
     @Override
     public void checkCoupTouche(Projectile p) {
