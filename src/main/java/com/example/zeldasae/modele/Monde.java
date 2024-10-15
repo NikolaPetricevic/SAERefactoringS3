@@ -17,6 +17,8 @@ import java.util.List;
 
 public class Monde {
 
+    private static Monde uniqueInstance = null;
+
     private Terrain terrain;
     private Joueur joueur;
     private ObservableList<Ennemi> listeEnnemis;
@@ -25,17 +27,24 @@ public class Monde {
     private BFS bfs;
     private List<Coffre> coffres;
 
+    public static void initMonde(int rows, int columns) {
+        uniqueInstance = new Monde(rows, columns);
+    }
+
+    public static Monde getInstance() {
+        return uniqueInstance;
+    }
+
     /**
      * Constructeur de la classe Monde
      */
-    public Monde(Joueur joueur, BFS bfs, int rows, int columns) {
-
-        this.joueur = joueur;
+    private Monde(int rows, int columns) {
+        this.joueur = new Joueur(600, 510, columns, rows);
+        this.bfs = new BFS();
         this.terrain = new Terrain(rows, columns);
         this.listeEnnemis = FXCollections.observableArrayList();
         this.listeProjectiles = FXCollections.observableArrayList();
         this.listeCollectibles = FXCollections.observableArrayList();
-        this.bfs = bfs;
         this.coffres = new ArrayList<>();
     }
 
@@ -85,7 +94,7 @@ public class Monde {
 
     public void deplacementEnnemi(){
         for (Ennemi ennemi : this.listeEnnemis) {
-            ennemi.deplacement(this);
+            ennemi.deplacement();
         }
     }
 
@@ -99,26 +108,27 @@ public class Monde {
         }
     }
 
-    public int[] cooBloc(int x, int y, String direction){
+    public int[] cooBloc(int x, int y, String direction) {
+
+        switch (direction) {
+            case "up":
+                return cooBlocS(x, y, -100);
+            case "down":
+                return cooBlocS(x, y, 100);
+            case "right":
+                return cooBlocS(x, y, -1);
+            case "left":
+                return cooBlocS(x, y, 1);
+        }
+        return null;
+    }
+
+    public int[] cooBlocS(int x, int y, int n){
         int coo = terrain.changeCoo(x, y);
-        int coobloc = 0;
-        int coovide = 0;
-        if (direction.contains("up")){
-            coobloc = coo - 100;
-            coovide = coobloc - 100;
-        }
-        else if (direction.contains("down")){
-            coobloc = coo + 100;
-            coovide = coobloc + 100;
-        }
-        else if (direction.contains("right")){
-            coobloc = coo + 1;
-            coovide = coobloc + 1;
-        }
-        else if (direction.contains("left")){
-            coobloc = coo - 1;
-            coovide = coobloc - 1;
-        }
+
+        int coobloc = coo +n ;
+        int coovide = coobloc +n;
+
         return new int[]{coobloc, coovide};
     }
 
@@ -128,7 +138,7 @@ public class Monde {
 
     public void deplacerProjectiles() {
         for (int i = 0; i < this.listeProjectiles.size(); i++) {
-            this.listeProjectiles.get(i).seDeplace(this);
+            this.listeProjectiles.get(i).seDeplace();
             if (listeProjectiles.get(i).aRetirer(terrain)) {
                 removeProjectile(this.listeProjectiles.get(i));
                 i--;

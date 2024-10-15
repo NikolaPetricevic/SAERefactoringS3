@@ -16,21 +16,23 @@ public class Bombe extends Arme {
     }
 
     @Override
-    public void attaquer(KeyEvent keyEvent, Monde map) {
+    public void attaquer(KeyEvent keyEvent) {
+        Monde map = Monde.getInstance();
+
         map.getJoueur().getInv().getCollectible(new BombeCollectible(0, 0)).retirer(1);
         this.setPosMap(map.getJoueur().getX(), map.getJoueur().getY(), keyEvent);
 
         PauseTransition pause = new PauseTransition(Duration.seconds(delaiExplosion));
-        pause.setOnFinished(event -> this.checkCoupTouche(map));
+        pause.setOnFinished(event -> this.checkCoupTouche());
         pause.play();
 
         map.getJoueur().setPeutDonnerCoup(true);
     }
 
     @Override
-    public boolean peutAttaquer(Monde map) {
-        if(map.getJoueur().getInv().getCollectible(new BombeCollectible(0, 0)) != null)
-            return map.getJoueur().getInv().getCollectible(new BombeCollectible(0, 0)).getQuantite() > 0;
+    public boolean peutAttaquer() {
+        if(Monde.getInstance().getJoueur().getInv().getCollectible(new BombeCollectible(0, 0)) != null)
+            return Monde.getInstance().getJoueur().getInv().getCollectible(new BombeCollectible(0, 0)).getQuantite() > 0;
         else
             return false;
     }
@@ -58,7 +60,9 @@ public class Bombe extends Arme {
     }
 
     @Override
-    public void checkCoupTouche(Monde map) {
+    public void checkCoupTouche() {
+        Monde map = Monde.getInstance();
+
         for (Ennemi e : map.getListeEnnemis()) {
             if (e.getHitBox().estDedansHitbox(getHitBox())) {
                 infligerDegats(e);

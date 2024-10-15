@@ -82,8 +82,8 @@ public class KeyHandler implements EventHandler<KeyEvent> {
                     this.map.getJoueur().getInv().echangerArmes();
                     break;
                 case LEFT, RIGHT, UP, DOWN:
-                    if (this.map.getJoueur().PeutDonnerCoup() && map.getJoueur().peutAttaquerArme(map)) {
-                        this.map.getJoueur().attaquer(keyEvent, map);
+                    if (this.map.getJoueur().PeutDonnerCoup() && map.getJoueur().peutAttaquerArme()) {
+                        this.map.getJoueur().attaquer(keyEvent);
                         VueArme vueArme = createurVueArme.creerVueArme();
                         if (vueArme != null)
                             vueArme.donnerCoup(this.map.getJoueur().getInv().getArmeActuelle().getHitBox().getX(), this.map.getJoueur().getInv().getArmeActuelle().getHitBox().getY(), keyEvent);
@@ -97,7 +97,7 @@ public class KeyHandler implements EventHandler<KeyEvent> {
                     break;
                 case E:
                     for (VueCoffre coffre : vueCoffres) {
-                        if ((this.map.getJoueur().peutOuvrirUnCoffre(this.map, coffre.getCoffre(), 1)) || coffre.getCoffre().isEstOuvert()) {
+                        if ((this.map.getJoueur().peutOuvrirUnCoffre(coffre.getCoffre(), 1)) || coffre.getCoffre().isEstOuvert()) {
                             coffre.toggleAffichageInterface(keyEvent);
                             break;
                         }

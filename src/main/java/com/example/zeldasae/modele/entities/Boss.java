@@ -19,19 +19,19 @@ public class Boss extends Ennemi {
     }
 
     @Override
-    public boolean deplacement(Monde m) {
+    public boolean deplacement() {
         int x = (this.getX()/ 30) % (30 * this.getColumn());
         int y = (this.getY() / 30) % (30 * this.getRows());
         if (this.getBfs().distanceMouvement(new int[]{x, y}) < 15) {
-            return super.deplacement(m);
+            return super.deplacement();
         }
         if (this.peutAttaquerDistance && verifVivant()) {
-            attaquerDistance(m);
+            attaquerDistance();
         }
         return false;
     }
 
-    public void attaquerDistance(Monde m) {
+    public void attaquerDistance() {
         ProjectileEnnemi p = new ProjectileEnnemi(2, 20, 30, 30, "ProjectileMagique");
         if(!switchDirection(m).equals("NULL")) {
             p.setDirection(Direction.stringToDirections(switchDirection(m)).get(0));
@@ -45,9 +45,9 @@ public class Boss extends Ennemi {
         }
     }
 
-    public String switchDirection(Monde m) {
-        int x = m.getJoueur().getX();
-        int y = m.getJoueur().getY();
+    public String switchDirection() {
+        int x = Monde.getInstance().getJoueur().getX();
+        int y = Monde.getInstance().getJoueur().getY();
         if(x < getX() && y < getY() + 200 && y > getY() - 200) {
             return "LEFT";
         }

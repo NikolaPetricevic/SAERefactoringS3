@@ -86,7 +86,7 @@ public abstract class Projectile {
         }
     }
 
-    public void seDeplace(Monde map) {
+    public void seDeplace() {
         switch (this.direction) {
             case UP:
                 getHitBox().setY(getHitBox().getY() - this.vitesse);
@@ -101,7 +101,7 @@ public abstract class Projectile {
                 getHitBox().setX(getHitBox().getX() + this.vitesse);
                 break;
         }
-        checkCoupTouche(map);
+        checkCoupTouche();
     }
 
     public void checkCoupTouche(Monde map){

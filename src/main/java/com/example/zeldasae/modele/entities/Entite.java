@@ -161,11 +161,10 @@ public abstract class Entite {
 
     /**
      * Méthode qui gère le déplacement d'une Entite sur le pane
-     * @param m le monde contenant le terrain, le joueur et la liste d'ennemis qui est passé en paramètre à la méthode
-     *          checkDeplacement()
      * @return true si le déplacement a été effectué sinon false
      */
-    public boolean deplacement(Monde m) {
+    public boolean deplacement() {
+        Monde m = Monde.getInstance();
         if (verifVivant()) {
             int dx = 0;
             int dy = 0;
@@ -214,8 +213,8 @@ public abstract class Entite {
         return false;
     }
 
-    public boolean checkColisionEntite(Monde m, int x, int y){
-        for (Ennemi ennemi : m.getListeEnnemis()){
+    public boolean checkColisionEntite(int x, int y){
+        for (Ennemi ennemi : Monde.getInstance().getListeEnnemis()){
             if (this != ennemi && ennemi.getHitBox().contient(x,y))
                 return true;
         }
