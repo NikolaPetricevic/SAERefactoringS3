@@ -94,7 +94,7 @@ public class Monde {
 
     public void deplacementEnnemi(){
         for (Ennemi ennemi : this.listeEnnemis) {
-            ennemi.deplacement();
+            ennemi.agir();
         }
     }
 

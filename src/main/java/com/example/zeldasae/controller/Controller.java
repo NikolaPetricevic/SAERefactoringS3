@@ -187,7 +187,7 @@ public class Controller implements Initializable {
         KeyFrame kf = new KeyFrame(
                 Duration.seconds(0.040),
                 (ev ->{
-                    this.map.getJoueur().deplacement();
+                    this.map.getJoueur().agir();
 
                     if (temps.getValue()%2==0) {
                         this.map.deplacementEnnemi();

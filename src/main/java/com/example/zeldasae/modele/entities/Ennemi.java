@@ -23,48 +23,45 @@ public abstract class Ennemi extends Entite {
     /**
      * Méthode qui gère le déplacement d'un Ennemi sur la map en se reposant sur la méthode déplacement() d'Entite
      */
-    public boolean deplacement() {
+    public boolean agir() {
         Monde m = Monde.getInstance();
         int width = 0;
         int width2 = this.getWidth();
         int x;
         int y;
-        int[] src;
-        int[] pdeplacement;
-
-        boolean deplacement = false;
+        boolean aDeplace = false;
 
         do {
-            if (!deplacement && width <= this.getWidth()) {
-                x = ((this.getX() + width )/ 30) % (30 * this.getColumn());
+            if (!aDeplace) {
+                x = ((this.getX() + width ) / 30) % (30 * this.getColumn());
                 y = (this.getY() / 30) % (30 * this.getRows());
-                src = new int[]{x, y};
-                pdeplacement = bfs.prochainMouvement(src);
-                if (pdeplacement != null) {
-                    metDirection(x, y, pdeplacement, m.getTerrain());
-                    deplacement = super.deplacement();
-                }
+                aDeplace = deplacer(x, y, m);
             }
-            if(!deplacement && width2 >= 0){
-                x = ((this.getX()+width2-1)/30)%(30*this.getColumn());
-                y = ((this.getY()+this.getHeight()-1)/30)%(30*this.getRows());
-                src = new int[]{x, y};
-                pdeplacement = bfs.prochainMouvement(src);
-                if (pdeplacement != null) {
-                    metDirection(x, y, pdeplacement, m.getTerrain());
-                    deplacement = super.deplacement();
-                }
+            if(!aDeplace){
+                x = ((this.getX() + width2 - 1) / 30) % (30 * this.getColumn());
+                y = ((this.getY() + this.getHeight() - 1) / 30) % (30 * this.getRows());
+                aDeplace = deplacer(x, y, m);
             }
             if (width <= this.getWidth())
                 width += 30;
             if (width2 >= 0)
                 width2 -= 30;
-        }while (width <= this.getWidth() && width2 >= 0);
+        } while (width <= this.getWidth() && width2 >= 0);
 
         this.setDirection(Direction.directionsToString(this.getDeplacement()));
         if (this.trouverDirection() != null)
             attaqueEntite(m.getJoueur());
-        return deplacement;
+        return aDeplace;
+    }
+
+    private boolean deplacer(int x, int y, Monde m) {
+        int[] src = new int[]{x, y};
+        int[] pdeplacement = bfs.prochainMouvement(src);
+        if (pdeplacement != null) {
+            metDirection(x, y, pdeplacement, m.getTerrain());
+            return super.agir();
+        }
+        return false;
     }
 
     private void metDirection(int x, int y, int[] pdeplacement, Terrain terrain) {

@@ -164,7 +164,7 @@ public abstract class Entite {
      * Méthode qui gère le déplacement d'une Entite sur le pane
      * @return true si le déplacement a été effectué sinon false
      */
-    public boolean deplacement() {
+    public boolean agir() {
         Monde m = Monde.getInstance();
         if (verifVivant()) {
             int dx = 0;
