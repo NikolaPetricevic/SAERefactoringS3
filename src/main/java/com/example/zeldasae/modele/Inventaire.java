@@ -40,13 +40,13 @@ public class Inventaire {
         }
     }
 
-    public boolean possedeCharme(){
+    /*public boolean possedeCharme(){
         for (Item i : listeItems){
             if (i instanceof Charme)
                 return true;
         }
         return false;
-    }
+    }*/
 
     public ObservableList<Item> getListeItems() {
         return this.listeItems;

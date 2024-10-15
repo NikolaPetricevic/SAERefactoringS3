@@ -1,5 +1,6 @@
 package com.example.zeldasae.modele.entities;
 
+import com.example.zeldasae.modele.Charme;
 import com.example.zeldasae.modele.Coffre;
 import com.example.zeldasae.modele.Inventaire;
 import com.example.zeldasae.modele.Monde;
@@ -13,6 +14,7 @@ public class Joueur extends Entite {
     private Inventaire inv;
     private boolean peutDonnerCoupProperty;
     private boolean peutPrendreCoupProperty;
+    private Charme charme;
 
     public Joueur(int x, int y, int column, int rows) {
         super(x, y, "j1", 30, 30, column, rows, 10);
@@ -62,7 +64,7 @@ public class Joueur extends Entite {
     @Override
     public boolean deplacement() {
         boolean deplacement = super.deplacement();
-        if (Monde.getInstance().getTerrain().isBrouillard(Monde.getInstance().getTerrain().changeCoo(getX(), getY())) && !inv.possedeCharme()) {
+        if (Monde.getInstance().getTerrain().isBrouillard(Monde.getInstance().getTerrain().changeCoo(getX(), getY())) && !charme.possedeCharme(inv)) {
             if (this.getPv()/2 != 0)
                 this.perdreVie(this.getPv() / 2);
             else this.perdreVie(this.getPv());
