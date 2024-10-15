@@ -33,10 +33,10 @@ public class Boss extends Ennemi {
 
     public void attaquerDistance() {
         ProjectileEnnemi p = new ProjectileEnnemi(2, 20, 30, 30, "ProjectileMagique");
-        if(!switchDirection(m).equals("NULL")) {
-            p.setDirection(Direction.stringToDirections(switchDirection(m)).get(0));
-            p.setPosMap(this.getX(), this.getY(), switchDirection(m));
-            m.addProjectile(p);
+        if(!switchDirection().equals("NULL")) {
+            p.setDirection(Direction.stringToDirections(switchDirection()).get(0));
+            p.setPosMap(this.getX(), this.getY(), switchDirection());
+            Monde.getInstance().addProjectile(p);
             this.peutAttaquerDistance = false;
 
             PauseTransition pause = new PauseTransition(Duration.seconds(this.cooldownAttaqueDistance));

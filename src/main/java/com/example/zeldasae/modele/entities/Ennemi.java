@@ -22,8 +22,6 @@ public abstract class Ennemi extends Entite {
 
     /**
      * Méthode qui gère le déplacement d'un Ennemi sur la map en se reposant sur la méthode déplacement() d'Entite
-     * @param m le monde contenant le terrain, le joueur et la liste d'ennemis qui est passé en paramètre à la méthode
-     *          déplacement() d'Entite
      */
     public boolean deplacement() {
         Monde m = Monde.getInstance();
@@ -64,7 +62,7 @@ public abstract class Ennemi extends Entite {
         }while (width <= this.getWidth() && width2 >= 0);
 
         this.setDirection(Direction.directionsToString(this.getDeplacement()));
-        if (getDirection().isEmpty())
+        if (this.trouverDirection() != null)
             attaqueEntite(m.getJoueur());
         return deplacement;
     }
@@ -82,14 +80,16 @@ public abstract class Ennemi extends Entite {
         this.setDeplacement(direction);
     }
 
-    public boolean checkColisionEntite(Monde m, int x, int y) {
-        if (m.getJoueur().getHitBox().contient(x, y)){
+    public boolean checkColisionEntite(int x, int y) {
+        if (Monde.getInstance().getJoueur().getHitBox().contient(x, y)){
             return true;
         }
         return super.checkColisionEntite(x, y);
     }
 
-    private Direction getDirection(Monde m, int decalages){
+    private Direction trouverDirection(){
+        int decalages = 1;
+        Monde m = Monde.getInstance();
         for (int i = 0; i <= super.getWidth(); i++){
             if (m.getJoueur().getHitBox().contient(getX() + i, getY() - decalages))
                 return Direction.UP;

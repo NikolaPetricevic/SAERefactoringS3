@@ -151,6 +151,7 @@ public abstract class Entite {
 
     public void attaqueEntite(Entite entite) {
         if (verifVivant()) {
+            System.out.println("attaque");
             entite.perdreVie(this.getDegats());
         }
     }
@@ -172,25 +173,25 @@ public abstract class Entite {
             int y = getY();
 
             if (this.deplacement.contains(Direction.UP) && checkHitBox(Direction.UP, m.getTerrain()))
-                if (checkUp(m, vitesse)) {
+                if (checkUp(vitesse)) {
                     dy -= vitesse;
                     addDirection("up");
                     setY(getY() + dy);
                 }
             if (this.deplacement.contains(Direction.DOWN) && checkHitBox(Direction.DOWN, m.getTerrain()))
-                if (checkDown(m, vitesse)) {
+                if (checkDown(vitesse)) {
                     dy += vitesse;
                     addDirection("down");
                     setY(getY() + dy);
                 }
             if (this.deplacement.contains(Direction.LEFT) && checkHitBox(Direction.LEFT, m.getTerrain()))
-                if (checkLeft(m, vitesse)) {
+                if (checkLeft(vitesse)) {
                     dx -= vitesse;
                     addDirection("left");
                     setX(getX() + dx);
                 }
             if (this.deplacement.contains(Direction.RIGHT) && checkHitBox(Direction.RIGHT, m.getTerrain()))
-                if (checkRight(m, vitesse)) {
+                if (checkRight(vitesse)) {
                     dx += vitesse;
                     addDirection("right");
                     setX(getX() + dx);
@@ -221,30 +222,30 @@ public abstract class Entite {
         return false;
     }
 
-    public boolean checkUp(Monde m, int decalages){
-        return !detecterColision(m, decalages).contains(Direction.UP);
+    public boolean checkUp( int decalages){
+        return !detecterColision(decalages).contains(Direction.UP);
     }
-    public boolean checkDown(Monde m, int decalages){
-        return !detecterColision(m, decalages).contains(Direction.DOWN);
+    public boolean checkDown(int decalages){
+        return !detecterColision(decalages).contains(Direction.DOWN);
     }
-    public boolean checkRight(Monde m, int decalages){
-        return !detecterColision(m, decalages).contains(Direction.RIGHT);
+    public boolean checkRight(int decalages){
+        return !detecterColision(decalages).contains(Direction.RIGHT);
     }
-    public boolean checkLeft(Monde m, int decalages){
-        return !detecterColision(m, decalages).contains(Direction.LEFT);
+    public boolean checkLeft(int decalages){
+        return !detecterColision(decalages).contains(Direction.LEFT);
     }
-    public ArrayList<Direction> detecterColision(Monde m, int decalages){
+    public ArrayList<Direction> detecterColision(int decalages){
         ArrayList<Direction> colisions = new ArrayList<>();
         for (int i = 0; i <= width; i++){
-            if (checkColisionEntite(m, getX() + i, getY() - decalages))
+            if (checkColisionEntite(getX() + i, getY() - decalages))
                 colisions.add(Direction.UP);
-            if (checkColisionEntite(m, getX() + i, getY() + height + decalages))
+            if (checkColisionEntite(getX() + i, getY() + height + decalages))
                 colisions.add(Direction.DOWN);
         }
         for (int i = 0; i <= height; i++){
-            if (checkColisionEntite(m, getX() + width + decalages, getY() + i))
+            if (checkColisionEntite(getX() + width + decalages, getY() + i))
                 colisions.add(Direction.RIGHT);
-            if (checkColisionEntite(m, getX() - decalages, getY() + i))
+            if (checkColisionEntite(getX() - decalages, getY() + i))
                 colisions.add(Direction.LEFT);
         }
         return colisions;

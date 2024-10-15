@@ -101,11 +101,11 @@ public abstract class Projectile {
                 getHitBox().setX(getHitBox().getX() + this.vitesse);
                 break;
         }
-        checkCoupTouche();
+        this.checkCoupTouche();
     }
 
-    public void checkCoupTouche(Monde map){
-        this.projectileTouch.checkCoupTouche(map,this);
+    public void checkCoupTouche(){
+        this.projectileTouch.checkCoupTouche(this);
     }
 
     public boolean dansMap(Terrain terrain) {

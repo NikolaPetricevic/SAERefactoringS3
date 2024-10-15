@@ -6,12 +6,11 @@ import com.example.zeldasae.modele.entities.Ennemi;
 
 public class DepuisEnnemi implements ProjectileTouché{
 
-
     @Override
-    public void checkCoupTouche(Monde map, Projectile p) {
-        if (p.getHitBox().estDedansHitbox(map.getJoueur().getHitBox()) && !p.isObstacleTouche()) {
+    public void checkCoupTouche(Projectile p) {
+        if (p.getHitBox().estDedansHitbox(Monde.getInstance().getJoueur().getHitBox()) && !p.isObstacleTouche()) {
             p.setObstacleTouche(true);
-            map.getJoueur().perdreVie(p.getDegats());
+            Monde.getInstance().getJoueur().perdreVie(p.getDegats());
         }
     }
 }

@@ -6,5 +6,5 @@ import com.example.zeldasae.modele.entities.Ennemi;
 
 public interface ProjectileTouché {
 
-    public void checkCoupTouche(Monde map, Projectile p);
+    public void checkCoupTouche(Projectile p);
 }
