@@ -60,8 +60,8 @@ public class Joueur extends Entite {
     }
 
     @Override
-    public boolean deplacement() {
-        boolean deplacement = super.deplacement();
+    public boolean agir() {
+        boolean deplacement = super.agir();
         if (Monde.getInstance().getTerrain().isBrouillard(Monde.getInstance().getTerrain().changeCoo(getX(), getY())) && !inv.possedeCharme()) {
             if (this.getPv()/2 != 0)
                 this.perdreVie(this.getPv() / 2);

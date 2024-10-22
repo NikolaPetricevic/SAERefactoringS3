@@ -128,7 +128,6 @@ public class HitBox {
                 directions.add(Direction.RIGHT);
             }
         }
-        System.out.println(directions);
         return directions;
     }
 

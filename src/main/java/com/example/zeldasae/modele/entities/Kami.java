@@ -10,7 +10,7 @@ public class Kami extends Ennemi{
     }
 
     @Override
-    public boolean deplacement() {
+    public boolean agir() {
         int x = (this.getX()/ 30) % (30 * this.getColumn());
         int y = (this.getY() / 30) % (30 * this.getRows());
         int distance = this.getBfs().distanceMouvement(new int[]{x, y});
@@ -19,7 +19,7 @@ public class Kami extends Ennemi{
                 explose(Monde.getInstance().getJoueur());
                 this.perdreVie(this.getPv());
                 return false;
-            } else return super.deplacement();
+            } else return super.agir();
         }
         return false;
     }
