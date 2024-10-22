@@ -1,5 +1,6 @@
 package com.example.zeldasae.modele.entities;
 
+import com.example.zeldasae.modele.Charme;
 import com.example.zeldasae.modele.Coffre;
 import com.example.zeldasae.modele.Inventaire;
 import com.example.zeldasae.modele.Monde;
@@ -13,12 +14,14 @@ public class Joueur extends Entite {
     private Inventaire inv;
     private boolean peutDonnerCoupProperty;
     private boolean peutPrendreCoupProperty;
+    private Charme charme;
 
     public Joueur(int x, int y, int column, int rows) {
         super(x, y, "j1", 30, 30, column, rows, 10);
         this.inv = new Inventaire();
         this.peutDonnerCoupProperty = true;
         this.peutPrendreCoupProperty = true;
+        charme = new Charme();
     }
 
     public Inventaire getInv() {

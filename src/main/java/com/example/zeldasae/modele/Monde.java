@@ -113,7 +113,8 @@ public class Monde {
         if (direction.contains("down")) return cooBlocS(x, y, 100);
         if (direction.contains("left")) return cooBlocS(x, y, -1);
         if (direction.contains("right")) return cooBlocS(x, y, 1);
-        return null;
+        return new int[]{0, 0};
+
     }
 
     public int[] cooBlocS(int x, int y, int n){
