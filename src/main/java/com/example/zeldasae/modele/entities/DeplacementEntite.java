@@ -23,7 +23,7 @@ public class DeplacementEntite {
         this.direction = new SimpleStringProperty("down");
     }
 
-    public boolean deplacement() {
+    public boolean agir() {
         Monde m = Monde.getInstance();
         if (this.e.verifVivant()) {
             int dx = 0;

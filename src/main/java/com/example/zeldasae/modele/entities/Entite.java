@@ -2,8 +2,6 @@ package com.example.zeldasae.modele.entities;
 
 import com.example.zeldasae.modele.Direction;
 import com.example.zeldasae.modele.HitBox;
-import com.example.zeldasae.modele.Monde;
-import com.example.zeldasae.modele.Terrain;
 import javafx.beans.property.*;
 
 import java.util.ArrayList;
@@ -157,8 +155,8 @@ public abstract class Entite {
      * Méthode qui gère le déplacement d'une Entite sur le pane
      * @return true si le déplacement a été effectué sinon false
      */
-    public boolean deplacement() {
-        return de.deplacement();
+    public boolean agir() {
+        return de.agir();
     }
 
     protected DeplacementEntite getDeplacementEntite() {
