@@ -21,6 +21,7 @@ public class Joueur extends Entite {
         this.inv = new Inventaire();
         this.peutDonnerCoupProperty = true;
         this.peutPrendreCoupProperty = true;
+        charme = new Charme();
     }
 
     public Inventaire getInv() {
