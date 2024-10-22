@@ -89,16 +89,18 @@ public class VueTerrain {
     public void deplaceBloc(){
         ArrayList<Integer> m1 = map.getTerrain().getMap();
         int[] coos = map.cooBloc(this.map.getJoueur().getX(), this.map.getJoueur().getY(), map.getJoueur().getDirection());
-        int coobloc = coos[0];
-        int coovide = coos[1];
-        if (this.map.getTerrain().poussable(coobloc)){
-            if (this.map.getTerrain().vide(coovide) && ((this.map.getJoueur().getX()/30)-2 >= 0 && (this.map.getJoueur().getX()/30)+2 < this.mapPane.getPrefColumns())){
-                StackPane vide = new StackPane(new ImageView(tiles[m2.get(coobloc)-1]));
-                StackPane bloc = new StackPane(new ImageView(tiles[m2.get(coovide)-1]), new ImageView(tiles[m1.get(coobloc)-1]));
-                mapPane.getChildren().set(coobloc, vide);
-                mapPane.getChildren().set(coovide, bloc);
-                this.map.getTerrain().setCoo(coovide, m1.get(coobloc));
-                this.map.getTerrain().setCoo(coobloc, 0);
+        if (coos != null) {
+            int coobloc = coos[0];
+            int coovide = coos[1];
+            if (this.map.getTerrain().poussable(coobloc)) {
+                if (this.map.getTerrain().vide(coovide) && ((this.map.getJoueur().getX() / 30) - 2 >= 0 && (this.map.getJoueur().getX() / 30) + 2 < this.mapPane.getPrefColumns())) {
+                    StackPane vide = new StackPane(new ImageView(tiles[m2.get(coobloc) - 1]));
+                    StackPane bloc = new StackPane(new ImageView(tiles[m2.get(coovide) - 1]), new ImageView(tiles[m1.get(coobloc) - 1]));
+                    mapPane.getChildren().set(coobloc, vide);
+                    mapPane.getChildren().set(coovide, bloc);
+                    this.map.getTerrain().setCoo(coovide, m1.get(coobloc));
+                    this.map.getTerrain().setCoo(coobloc, 0);
+                }
             }
         }
     }
