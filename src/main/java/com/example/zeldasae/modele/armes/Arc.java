@@ -14,7 +14,8 @@ public class Arc extends Arme {
     private Monde map = Monde.getInstance();
 
     public Arc() {
-        super("Arc", 2, 4, 0.8, 0, 0, 0, 0, new AttaqueArc());
+        super("Arc", 2, 4, 0.8, new AttaqueArc());
+        setHitBox(0, 0);
     }
 
     @Override

@@ -6,7 +6,8 @@ import javafx.scene.input.KeyEvent;
 public class Hache extends Arme {
 
     public Hache() {
-        super("Hache", 2, 3, 1, 100, 100, 0, 0, new AttaqueDeBase());
+        super("Hache", 2, 3, 1, new AttaqueDeBase());
+        setHitBox(100, 100);
     }
 
     @Override

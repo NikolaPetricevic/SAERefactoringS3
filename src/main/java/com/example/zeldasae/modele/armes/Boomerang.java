@@ -16,8 +16,9 @@ public class Boomerang extends Arme {
     private ArrayList<Ennemi> ennemisTouchesAller;
 
     public Boomerang() {
-        super("Boomerang", 2, 6, 2.5, 0,0,0,0, new AttaqueBoomerang());
+        super("Boomerang", 2, 6, 2.5, new AttaqueBoomerang());
         this.ennemisTouchesAller = new ArrayList<>();
+        setHitBox(0, 0);
     }
 
     public void inverserBoomerang(Projectile p) {

@@ -13,7 +13,8 @@ public class Bombe extends Arme {
     public static final double delaiExplosion = 2;
 
     public Bombe() {
-        super("Bombe", 5, 0, 0, 90, 90, 0, 0, new AttaqueBombe());
+        super("Bombe", 5, 0, 0, new AttaqueBombe());
+        setHitBox(90, 90);
     }
 
     @Override

@@ -18,10 +18,9 @@ public abstract class Arme extends Item {
     private double delaiRecuperation;
     private Attaque attaque;
 
-    public Arme(String nom, int degats, int posSlotItems, double delaiRecuperation, int large, int haut, int x, int y, Attaque attaque) {
+    public Arme(String nom, int degats, int posSlotItems, double delaiRecuperation, Attaque attaque) {
         super(nom, posSlotItems);
         this.degats = degats;
-        this.hitBox = new HitBox(large, haut, new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
         this.delaiRecuperation = delaiRecuperation;
         this.attaque = attaque;
     }
@@ -36,6 +35,10 @@ public abstract class Arme extends Item {
 
     public HitBox getHitBox() {
         return hitBox;
+    }
+
+    public void setHitBox(int large, int haut) {
+        this.hitBox = new HitBox(large, haut, new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
     }
 
     public double getDelaiRecuperation() {
@@ -93,4 +96,5 @@ public abstract class Arme extends Item {
     public void infligerDegats(Ennemi e) {
         e.perdreVie(getDegats());
     }
+
 }
