@@ -3,6 +3,7 @@ package com.example.zeldasae.modele.armes;
 import com.example.zeldasae.modele.*;
 import com.example.zeldasae.modele.Projectiles.Projectile;
 import com.example.zeldasae.modele.Projectiles.ProjectileJoueur;
+import com.example.zeldasae.modele.armes.attaques.AttaqueBoomerang;
 import com.example.zeldasae.modele.entities.Ennemi;
 import javafx.animation.PauseTransition;
 import javafx.scene.input.KeyEvent;
@@ -15,32 +16,8 @@ public class Boomerang extends Arme {
     private ArrayList<Ennemi> ennemisTouchesAller;
 
     public Boomerang() {
-        super("Boomerang", 2, 6, 2.5, 0,0,0,0);
+        super("Boomerang", 2, 6, 2.5, 0,0,0,0, new AttaqueBoomerang());
         this.ennemisTouchesAller = new ArrayList<>();
-    }
-
-    public Projectile creerProjectile(KeyEvent keyEvent) {
-
-        Projectile boomerang = new ProjectileJoueur(getDegats(), 30, 20, 20, keyEvent, "Boomerang", false);
-        boomerang.setPosMap(Monde.getInstance().getJoueur().getHitBox().getX(), Monde.getInstance().getJoueur().getHitBox().getY(), keyEvent.getCode().toString());
-        return boomerang;
-    }
-
-    @Override
-    public void attaquer(KeyEvent keyEvent) {
-        Monde map = Monde.getInstance();
-        Projectile p = creerProjectile(keyEvent);
-        map.addProjectile(p);
-
-        map.getJoueur().setPeutDonnerCoup(false);
-
-        PauseTransition pause1 = new PauseTransition(Duration.seconds(map.getJoueur().getInv().getArmeActuelle().getDelaiRecuperation()));
-        pause1.setOnFinished(event -> supprimerBoomerang(p));
-        pause1.play();
-
-        PauseTransition pause2 = new PauseTransition(Duration.seconds(1.25));
-        pause2.setOnFinished(event -> inverserBoomerang(p));
-        pause2.play();
     }
 
     public void inverserBoomerang(Projectile p) {
