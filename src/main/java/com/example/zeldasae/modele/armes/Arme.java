@@ -3,6 +3,7 @@ package com.example.zeldasae.modele.armes;
 import com.example.zeldasae.modele.HitBox;
 import com.example.zeldasae.modele.Item;
 import com.example.zeldasae.modele.Monde;
+import com.example.zeldasae.modele.armes.attaques.Attaque;
 import com.example.zeldasae.modele.entities.Ennemi;
 import com.example.zeldasae.modele.entities.Joueur;
 import javafx.animation.PauseTransition;
@@ -15,12 +16,13 @@ public abstract class Arme extends Item {
     private int degats;
     private HitBox hitBox;
     private double delaiRecuperation;
+    private Attaque attaque;
 
-    public Arme(String nom, int degats, int posSlotItems, double delaiRecuperation, int large, int haut, int x, int y) {
+    public Arme(String nom, int degats, int posSlotItems, double delaiRecuperation, Attaque attaque) {
         super(nom, posSlotItems);
         this.degats = degats;
-        this.hitBox = new HitBox(large, haut, new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
         this.delaiRecuperation = delaiRecuperation;
+        this.attaque = attaque;
     }
 
     public int getX() {
@@ -33,6 +35,10 @@ public abstract class Arme extends Item {
 
     public HitBox getHitBox() {
         return hitBox;
+    }
+
+    public void setHitBox(int large, int haut) {
+        this.hitBox = new HitBox(large, haut, new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
     }
 
     public double getDelaiRecuperation() {
@@ -75,15 +81,7 @@ public abstract class Arme extends Item {
     }
 
     public void attaquer(KeyEvent keyEvent) {
-        Monde map = Monde.getInstance();
-
-        this.setPosMap(map.getJoueur().getX(), map.getJoueur().getY(), keyEvent);
-        this.checkCoupTouche();
-        map.getJoueur().setPeutDonnerCoup(false);
-
-        PauseTransition pause = new PauseTransition(Duration.seconds(map.getJoueur().getInv().getArmeActuelle().getDelaiRecuperation()));
-        pause.setOnFinished(event -> map.getJoueur().setPeutDonnerCoup(true));
-        pause.play();
+        this.attaque.executer(keyEvent, this);
     }
 
     public boolean peutAttaquer() {
@@ -98,4 +96,5 @@ public abstract class Arme extends Item {
     public void infligerDegats(Ennemi e) {
         e.perdreVie(getDegats());
     }
+
 }

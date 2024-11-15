@@ -1,11 +1,13 @@
 package com.example.zeldasae.modele.armes;
 
+import com.example.zeldasae.modele.armes.attaques.AttaqueDeBase;
 import javafx.scene.input.KeyEvent;
 
 public class Hache extends Arme {
 
     public Hache() {
-        super("Hache", 2, 3, 1, 100, 100, 0, 0);
+        super("Hache", 2, 3, 1, new AttaqueDeBase());
+        setHitBox(100, 100);
     }
 
     @Override

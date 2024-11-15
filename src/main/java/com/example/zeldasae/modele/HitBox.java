@@ -42,6 +42,12 @@ public class HitBox {
     public int getHaut() {
         return haut;
     }
+    public void setLarge(int large) {
+        this.large = large;
+    }
+    public void setHaut(int haut) {
+        this.haut = haut;
+    }
     public IntegerProperty xProperty() {
         return x;
     }
@@ -165,4 +171,6 @@ public class HitBox {
         int positionY = Math.abs(this.getY() - coffre.getY());
         return (positionX <= distance && positionY == 0) || (positionY <= distance && positionX == 0);
     }
+
+
 }

@@ -1,6 +1,7 @@
 package com.example.zeldasae.modele.armes;
 
 import com.example.zeldasae.modele.Monde;
+import com.example.zeldasae.modele.armes.attaques.AttaqueBombe;
 import com.example.zeldasae.modele.collectibles.BombeCollectible;
 import com.example.zeldasae.modele.entities.Ennemi;
 import javafx.animation.PauseTransition;
@@ -12,21 +13,8 @@ public class Bombe extends Arme {
     public static final double delaiExplosion = 2;
 
     public Bombe() {
-        super("Bombe", 5, 0, 0, 90, 90, 0, 0);
-    }
-
-    @Override
-    public void attaquer(KeyEvent keyEvent) {
-        Monde map = Monde.getInstance();
-
-        map.getJoueur().getInv().getCollectible(new BombeCollectible(0, 0)).retirer(1);
-        this.setPosMap(map.getJoueur().getX(), map.getJoueur().getY(), keyEvent);
-
-        PauseTransition pause = new PauseTransition(Duration.seconds(delaiExplosion));
-        pause.setOnFinished(event -> this.checkCoupTouche());
-        pause.play();
-
-        map.getJoueur().setPeutDonnerCoup(true);
+        super("Bombe", 5, 0, 0, new AttaqueBombe());
+        setHitBox(90, 90);
     }
 
     @Override
