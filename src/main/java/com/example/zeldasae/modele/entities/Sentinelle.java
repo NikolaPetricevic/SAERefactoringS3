@@ -20,12 +20,10 @@ public class Sentinelle extends Ennemi{
     }
 
     @Override
-    public boolean agir() {
-        int x = (this.getX()/ 30) % (30 * this.getColumn());
-        int y = (this.getY() / 30) % (30 * this.getRows());
-        if (this.getBfs().distanceMouvement(new int[]{x, y}) < 15 && peutAttaquer)
+    public boolean verificationAction(int distance) {
+        if (distance < 15 && peutAttaquer)
             attaqueDistance();
-        return super.agir();
+        return true;
     }
 
     private void attaqueDistance(){

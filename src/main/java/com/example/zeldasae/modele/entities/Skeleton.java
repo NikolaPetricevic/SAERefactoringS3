@@ -9,12 +9,7 @@ public class Skeleton extends Ennemi {
     }
 
     @Override
-    public boolean agir() {
-        int x = (this.getX()/ 30) % (30 * this.getColumn());
-        int y = (this.getY() / 30) % (30 * this.getRows());
-        int distance = this.getBfs().distanceMouvement(new int[]{x, y});
-        if (distance < 30)
-            return super.agir();
-        return false;
+    public boolean verificationAction(int distance) {
+        return distance < 30;
     }
 }

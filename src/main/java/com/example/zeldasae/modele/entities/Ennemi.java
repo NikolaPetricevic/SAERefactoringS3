@@ -24,35 +24,41 @@ public abstract class Ennemi extends Entite {
      * Méthode qui gère le déplacement d'un Ennemi sur la map en se reposant sur la méthode déplacement() d'Entite
      */
     public boolean agir() {
-        Monde m = Monde.getInstance();
-        int width = 0;
-        int width2 = this.getWidth();
-        int x;
-        int y;
-        boolean aDeplace = false;
+        int x = (this.getX()/ 30) % (30 * this.getColumn());
+        int y = (this.getY() / 30) % (30 * this.getRows());
+        int distance = this.getBfs().distanceMouvement(new int[]{x, y});
+        if (verificationAction(distance)) {
+            Monde m = Monde.getInstance();
+            int width = 0;
+            int width2 = this.getWidth();
+            boolean aDeplace = false;
 
-        do {
-            if (!aDeplace) {
-                x = ((this.getX() + width ) / 30) % (30 * this.getColumn());
-                y = (this.getY() / 30) % (30 * this.getRows());
-                aDeplace = deplacer(x, y, m);
-            }
-            if(!aDeplace){
-                x = ((this.getX() + width2 - 1) / 30) % (30 * this.getColumn());
-                y = ((this.getY() + this.getHeight() - 1) / 30) % (30 * this.getRows());
-                aDeplace = deplacer(x, y, m);
-            }
-            if (width <= this.getWidth())
-                width += 30;
-            if (width2 >= 0)
-                width2 -= 30;
-        } while (width <= this.getWidth() && width2 >= 0);
+            do {
+                if (!aDeplace) {
+                    x = ((this.getX() + width) / 30) % (30 * this.getColumn());
+                    y = (this.getY() / 30) % (30 * this.getRows());
+                    aDeplace = deplacer(x, y, m);
+                }
+                if (!aDeplace) {
+                    x = ((this.getX() + width2 - 1) / 30) % (30 * this.getColumn());
+                    y = ((this.getY() + this.getHeight() - 1) / 30) % (30 * this.getRows());
+                    aDeplace = deplacer(x, y, m);
+                }
+                if (width <= this.getWidth())
+                    width += 30;
+                if (width2 >= 0)
+                    width2 -= 30;
+            } while (width <= this.getWidth() && width2 >= 0);
 
-        this.setDirection(Direction.directionsToString(this.getDeplacement()));
-        if (this.trouverDirection() != null)
-            attaqueEntite(m.getJoueur());
-        return aDeplace;
+            this.setDirection(Direction.directionsToString(this.getDeplacement()));
+            if (this.trouverDirection() != null)
+                attaqueEntite(m.getJoueur());
+            return aDeplace;
+        }
+        return false;
     }
+
+    public abstract boolean verificationAction(int distance);
 
     private boolean deplacer(int x, int y, Monde m) {
         int[] src = new int[]{x, y};

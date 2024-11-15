@@ -10,18 +10,17 @@ public class Kami extends Ennemi{
     }
 
     @Override
-    public boolean agir() {
-        int x = (this.getX()/ 30) % (30 * this.getColumn());
-        int y = (this.getY() / 30) % (30 * this.getRows());
-        int distance = this.getBfs().distanceMouvement(new int[]{x, y});
-        if (distance < 30) {
-            if (distance == 2) {
-                explose(Monde.getInstance().getJoueur());
-                this.perdreVie(this.getPv());
-                return false;
-            } else return super.agir();
+    public boolean verificationAction(int distance) {
+        if (distance == 2) {
+            exploser();
+            return false;
         }
-        return false;
+        return distance < 30;
+    }
+
+    public void exploser() {
+        explose(Monde.getInstance().getJoueur());
+        this.perdreVie(this.getPv());
     }
 
     private void explose(Joueur joueur){
