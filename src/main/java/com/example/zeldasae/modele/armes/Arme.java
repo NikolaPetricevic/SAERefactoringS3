@@ -49,6 +49,10 @@ public abstract class Arme extends Item {
         return this.degats;
     }
 
+    public Attaque getAttaque() {
+        return attaque;
+    }
+
     public void setPosMap(int x, int y, KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case LEFT:
