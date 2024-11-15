@@ -125,7 +125,7 @@ public class Controller implements Initializable {
         this.vueProjectile = new VueProjectile(paneEntites);
 
         map.getJoueur().getInv().getListeItems().addListener(new ObservateurItems(vueInv));
-        map.getJoueur().getInv().ajouterItem(new EpeePic()); //  -> méthode à revoir en vrai, essaye de la déplacer autre part
+        map.getJoueur().getInv().ajouterItem(new Epee()); //  -> méthode à revoir en vrai, essaye de la déplacer autre part
         this.map.getListeProjectiles().addListener(new ObservateurProjectiles(vueProjectile));
         this.map.getListeCollectibles().addListener(new ObservateurCollectibles(vueCollectible));
 
